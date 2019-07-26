@@ -14,6 +14,8 @@
             <b-icon icon="menu-down"></b-icon>
           </a>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('articles')">文章管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('blacklists')">黑名单管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('books')">书籍管理</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('questions')">提问管理</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('lessons')">课程管理</b-dropdown-item>
         </b-dropdown>
