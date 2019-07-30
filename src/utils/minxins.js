@@ -1,3 +1,5 @@
+import request from "../utils/request";
+import { trim } from "lodash";
 export default {
   data() {
     const pageSize = parseInt(localStorage.getItem("pageSize")) || 20;
@@ -51,6 +53,48 @@ export default {
     },
     pushHistory() {
       this.$router.push({ name: this.$route.name, query: this.filters });
+    },
+    async delSin(id, params = {}) {
+      try {
+        let path = trim(this.$route.path, "/");
+        const { data } = await request(
+          "delete",
+          `api/v1/${path}/${id}`,
+          params
+        );
+        this.$toast.open({
+          message: data.msg,
+          type: data.status === "success" ? "is-success" : "is-danger"
+        });
+      } catch (error) {
+        this.$toast.open({ 
+          message: error.msg, 
+          type: "is-danger" 
+        });
+      }
+    },
+    async delAll() {
+      try {
+        let checkedList = [];
+        this.checkedRows.map(value => {
+          checkedList.push(value.id);
+        });
+        let path = trim(this.$route.path, "/");
+        const { data } = await request(
+          "post",
+          `api/v1/alldel/${path}`,
+          checkedList
+        );
+        this.$toast.open({
+          message: data.msg,
+          type: data.status === "success" ? "is-success" : "is-danger"
+        });
+      } catch (error) {
+        this.$toast.open({ 
+          message: error.msg, 
+          type: "is-danger" 
+        });
+      }
     }
   }
 };

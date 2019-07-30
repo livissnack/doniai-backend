@@ -86,7 +86,7 @@
               <span class="tag is-success">{{ props.row.status }}</span>
             </b-table-column>
             <b-table-column field="release_start_time" label="禁用开始时间" sortable>{{ props.row.release_start_time }}</b-table-column>
-            <b-table-column field="release_end_time" label="禁用开始时间" sortable>{{ props.row.release_end_time }}</b-table-column>
+            <b-table-column field="release_end_time" label="禁用结束时间" sortable>{{ props.row.release_end_time }}</b-table-column>
             <b-table-column field="created_at" label="创建时间" sortable>{{ props.row.created_at }}</b-table-column>
             <b-table-column field="updated_at" label="更新时间" sortable>{{ props.row.updated_at }}</b-table-column>
             <b-table-column field="handles" label="操作">

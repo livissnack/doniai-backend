@@ -49,12 +49,12 @@
       </div>
 
       <div class="handle-list">
-        <router-link class="button is-small is-danger" to="/articles/add">
+        <b-button class="button is-small is-danger" @click="isComponentModalActive = true">
           <span class="icon">
             <i class="fas fa-plus"></i>
           </span>
           <span>新增</span>
-        </router-link>
+        </b-button>
         <b-dropdown aria-role="list" position="is-bottom-left">
           <button class="button is-small is-primary" slot="trigger">
             <span>操作</span>
@@ -140,14 +140,21 @@
         </b-table>
       </b-tab-item>
     </b-tabs>
+    <b-modal :active.sync="isComponentModalActive" has-modal-card>
+      <modal-form v-bind="formProps" @closeArticleModal="handleCloseModal"></modal-form>
+    </b-modal>
   </section>
 </template>
 
 <script>
 import { getArticles } from "../../services/api";
 import List from "../../utils/minxins";
+import ModalForm from "./components/Create";
 export default {
   mixins: [List],
+  components: {
+    ModalForm
+  },
   created() {
     this.getArticleData();
   },
@@ -155,11 +162,14 @@ export default {
     return {
       data: [],
       checkedRows: [],
-      checkedStatus: false,
       isComponentModalActive: false,
       formProps: {
-        email: "evan@you.com",
-        password: "testing"
+        title: "",
+        image: "",
+        tag: 1,
+        type: 1,
+        username: "",
+        content: ""
       }
     };
   },
@@ -172,20 +182,21 @@ export default {
         this.pagination.current = data.data.page;
         this.pagination.pageSize = data.data.perPage;
         this.pagination.total = data.data.total;
-        console.log(this.pagination)
+        console.log(this.pagination);
       } catch ({ response }) {
         console.log(response);
       }
     },
-    async delAll() {
-      var checkedList = [];
-      this.checkedRows.map(value => {
-        checkedList.push(value.id);
+    addArticle() {
+      this.$modal.open({
+        parent: this,
+        component: ModalForm,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2"
       });
-      this.$toast.open({
-        message: `选中${checkedList.toString()}`,
-        type: "is-success"
-      });
+    },
+    handleCloseModal() {
+      this.isComponentModalActive = false;
     },
     confirmCustomDelete() {
       this.$dialog.confirm({

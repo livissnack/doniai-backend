@@ -32,7 +32,6 @@ export async function destroyArticle(id, params) {
   return request("delete", `api/v1/articles/${id}`, params);
 }
 
-
 /*
 |--------------------------------------------------------------------------
 | blackList api methods
