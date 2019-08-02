@@ -57,7 +57,13 @@ export default function request(method, url, data) {
   if (method === "get") {
     return axios.get(url, { params: data });
   } else if (method === "post") {
-    return axios.post(url, data);
+    if(data instanceof FormData) {
+      var config = {};
+      config.headers = {'Content-Type': 'multipart/form-data'};
+      return axios.post(url, data, config);
+    }else{
+      return axios.post(url, data);
+    }
   } else if (method === "put") {
     return axios.put(url, data);
   } else if (method === "delete") {

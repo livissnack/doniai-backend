@@ -9,7 +9,14 @@
           <b-input type="text" size="is-small" :value="title" placeholder="请输入标题" required></b-input>
         </b-field>
         <b-field label="封面图片">
-          <b-input type="file" size="is-small" :value="image" placeholder="请选择封面图片" required></b-input>
+          <b-input
+            type="file"
+            ref="article_image"
+            size="is-small"
+            :value="image"
+            placeholder="请选择封面图片"
+            required
+          ></b-input>
         </b-field>
         <b-field label="标签">
           <b-select size="is-small" :value="tag" placeholder="请选择标签" required>
@@ -50,6 +57,7 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 // you can also register quill modules in the component
 import { quillEditor } from "vue-quill-editor";
+import { ossPut } from "../../../services/api";
 export default {
   data() {
     return {
@@ -111,11 +119,22 @@ export default {
     // }
   },
   mounted() {
-    console.log("this is current quill instance object", this.editor);
+    // console.log("this is current quill instance object", this.editor);
   },
   methods: {
-    handleSubmit() {
-      console.log("adasda");
+    async handleSubmit() {
+      console.log('dsadsa');
+      let files = this.$refs.article_image.files;
+      console.log(files);
+      let formData = new FormData();
+      formData.append("file", files[0]);
+      console.log(formData);
+      try {
+        const { data } = await ossPut(formData);
+        console.log(data);
+      } catch ({ response }) {
+        console.log(response);
+      }
     },
     handleCancel() {
       this.$emit("closeArticleModal");
@@ -132,6 +151,19 @@ export default {
     onEditorChange({ quill, html, text }) {
       console.log("editor change!", quill, html, text);
       this.content = html;
+    },
+    async uploadImage() {
+      console.log('dsadsa');
+      let files = this.$refs.article_image.files;
+      let formData = new FormData();
+      formData.append("file", files[0]);
+      console.log(formData);
+      try {
+        const { data } = await ossPut(formData);
+        console.log(data);
+      } catch ({ response }) {
+        console.log(response);
+      }
     }
   }
 };

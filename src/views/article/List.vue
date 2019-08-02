@@ -177,7 +177,6 @@ export default {
     async getArticleData() {
       try {
         const { data } = await getArticles(this.filters);
-        console.log(data);
         this.data = data.data.data;
         this.pagination.current = data.data.page;
         this.pagination.pageSize = data.data.perPage;

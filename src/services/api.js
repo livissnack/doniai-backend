@@ -329,4 +329,17 @@ export async function destroyVideo(id, params) {
 
 
 
+//file upload
+export async function ossPut(params) {
+  return request("post", `api/v1/oss/put`, params);
+}
+
+
+
+
+
+
+
+
+
 
