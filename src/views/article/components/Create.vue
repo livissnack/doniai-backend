@@ -15,13 +15,13 @@
           ></b-input>
         </b-field>
         <b-field class="file">
-          <b-upload v-model="formData.image" ref="hhh" required>
+          <b-upload v-model="uploadImg" required>
             <a class="button is-primary">
               <b-icon icon="upload"></b-icon>
               <span></span>
             </a>
           </b-upload>
-          <span class="file-name" v-if="formData.image">{{ formData.image.name }}</span>
+          <span class="file-name" v-if="uploadImg">{{ uploadImg.name }}</span>
         </b-field>
         <b-field label="标签">
           <b-select size="is-small" v-model="formData.tag" placeholder="请选择标签" required>
@@ -75,15 +75,15 @@ import aliOss from "ali-oss";
 export default {
   data() {
     return {
+      uploadImg: [],
       formData: {
         title: "",
-        image: [],
+        image: "",
         tag: null,
         type: null,
         username: "",
         content: ""
       },
-      content: "<p>example content</p>",
       editorOption: {
         placeholder: "请输入文章内容",
         theme: "snow",
@@ -119,7 +119,7 @@ export default {
       try {
         let ossBucketConfig = await getBucketConfig();
         let client = new aliOss(ossBucketConfig.data);
-        let imageObj = this.formData.image;
+        let imageObj = this.uploadImg;
         const resultOss = await client.put(
           `uploads/${imageObj.name}`,
           imageObj
