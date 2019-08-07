@@ -16,8 +16,8 @@ export async function getArticles(params) {
   return request("get", "api/v1/articles", params);
 }
 
-export async function storeArticle(id, params) {
-  return request("post", `api/v1/articles/${id}`, params);
+export async function storeArticle(params) {
+  return request("post", `api/v1/articles`, params);
 }
 
 export async function showArticle(id, params) {
@@ -48,8 +48,8 @@ export async function getBlackLists(params) {
   return request("get", "api/v1/blacklists", params);
 }
 
-export async function storeBlackList(id, params) {
-  return request("post", `api/v1/blacklists/${id}`, params);
+export async function storeBlackList(params) {
+  return request("post", `api/v1/blacklists`, params);
 }
 
 export async function showBlackList(id, params) {
@@ -80,8 +80,8 @@ export async function getBooks(params) {
   return request("get", "api/v1/books", params);
 }
 
-export async function storeBook(id, params) {
-  return request("post", `api/v1/books/${id}`, params);
+export async function storeBook(params) {
+  return request("post", `api/v1/books`, params);
 }
 
 export async function showBook(id, params) {
@@ -112,8 +112,8 @@ export async function getComments(params) {
   return request("get", "api/v1/comments", params);
 }
 
-export async function storeComment(id, params) {
-  return request("post", `api/v1/comments/${id}`, params);
+export async function storeComment(params) {
+  return request("post", `api/v1/comments`, params);
 }
 
 export async function showComment(id, params) {
@@ -144,8 +144,8 @@ export async function getCourses(params) {
   return request("get", "api/v1/courses", params);
 }
 
-export async function storeCourse(id, params) {
-  return request("post", `api/v1/courses/${id}`, params);
+export async function storeCourse(params) {
+  return request("post", `api/v1/courses`, params);
 }
 
 export async function showCourse(id, params) {
@@ -176,8 +176,8 @@ export async function getLinks(params) {
   return request("get", "api/v1/links", params);
 }
 
-export async function storeLink(id, params) {
-  return request("post", `api/v1/links/${id}`, params);
+export async function storeLink(params) {
+  return request("post", `api/v1/links`, params);
 }
 
 export async function showLink(id, params) {
@@ -209,8 +209,8 @@ export async function getQuestions(params) {
   return request("get", "api/v1/questions", params);
 }
 
-export async function storeQuestion(id, params) {
-  return request("post", `api/v1/questions/${id}`, params);
+export async function storeQuestion(params) {
+  return request("post", `api/v1/questions`, params);
 }
 
 export async function showQuestion(id, params) {
@@ -241,8 +241,8 @@ export async function getReplays(params) {
   return request("get", "api/v1/replays", params);
 }
 
-export async function storeReplay(id, params) {
-  return request("post", `api/v1/replays/${id}`, params);
+export async function storeReplay(params) {
+  return request("post", `api/v1/replays`, params);
 }
 
 export async function showReplay(id, params) {
@@ -273,8 +273,8 @@ export async function getUsers(params) {
   return request("get", "api/v1/users", params);
 }
 
-export async function storeUser(id, params) {
-  return request("post", `api/v1/users/${id}`, params);
+export async function storeUser(params) {
+  return request("post", `api/v1/users`, params);
 }
 
 export async function showUser(id, params) {
@@ -305,8 +305,8 @@ export async function getVideos(params) {
   return request("get", "api/v1/videos", params);
 }
 
-export async function storeVideo(id, params) {
-  return request("post", `api/v1/videos/${id}`, params);
+export async function storeVideo(params) {
+  return request("post", `api/v1/videos`, params);
 }
 
 export async function showVideo(id, params) {
@@ -329,9 +329,9 @@ export async function destroyVideo(id, params) {
 
 
 
-//file upload
-export async function ossPut(params) {
-  return request("post", `api/v1/oss/put`, params);
+//file upload config
+export async function getBucketConfig(params) {
+  return request("get", `api/v1/oss/getBucketConfig`, params);
 }
 
 

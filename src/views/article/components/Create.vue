@@ -6,20 +6,25 @@
       </header>
       <section class="modal-card-body">
         <b-field label="标题">
-          <b-input type="text" size="is-small" :value="title" placeholder="请输入标题" required></b-input>
-        </b-field>
-        <b-field label="封面图片">
           <b-input
-            type="file"
-            ref="article_image"
+            type="text"
             size="is-small"
-            :value="image"
-            placeholder="请选择封面图片"
+            v-model="formData.title"
+            placeholder="请输入标题"
             required
           ></b-input>
         </b-field>
+        <b-field class="file">
+          <b-upload v-model="formData.image" ref="hhh" required>
+            <a class="button is-primary">
+              <b-icon icon="upload"></b-icon>
+              <span></span>
+            </a>
+          </b-upload>
+          <span class="file-name" v-if="formData.image">{{ formData.image.name }}</span>
+        </b-field>
         <b-field label="标签">
-          <b-select size="is-small" :value="tag" placeholder="请选择标签" required>
+          <b-select size="is-small" v-model="formData.tag" placeholder="请选择标签" required>
             <option value="1">Flint1</option>
             <option value="2">Flint2</option>
             <option value="3">Flint3</option>
@@ -27,7 +32,7 @@
           </b-select>
         </b-field>
         <b-field label="类别">
-          <b-select size="is-small" :value="type" placeholder="请选择类别" required>
+          <b-select size="is-small" v-model="formData.type" placeholder="请选择类别" required>
             <option value="1">Flint1</option>
             <option value="2">Flint2</option>
             <option value="3">Flint3</option>
@@ -35,12 +40,20 @@
           </b-select>
         </b-field>
         <b-field label="作者">
-          <b-input type="text" size="is-small" :value="username" placeholder="请输入作者" required></b-input>
+          <b-input
+            type="text"
+            size="is-small"
+            v-model="formData.username"
+            placeholder="请输入作者"
+            required
+          ></b-input>
         </b-field>
         <b-field label="内容">
-          <!-- Or manually control the data synchronization（或手动控制数据流） -->
-          <quill-editor :content="content" :options="editorOption" @change="onEditorChange($event)"></quill-editor>
-          <!-- <b-input type="textarea" size="is-small" :value="username" placeholder="请输入内容" required></b-input> -->
+          <quill-editor
+            v-model="formData.content"
+            :options="editorOption"
+            @change="onEditorChange($event)"
+          ></quill-editor>
         </b-field>
       </section>
       <footer class="modal-card-foot">
@@ -57,10 +70,19 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 // you can also register quill modules in the component
 import { quillEditor } from "vue-quill-editor";
-import { ossPut } from "../../../services/api";
+import { getBucketConfig, storeArticle } from "../../../services/api";
+import aliOss from "ali-oss";
 export default {
   data() {
     return {
+      formData: {
+        title: "",
+        image: [],
+        tag: null,
+        type: null,
+        username: "",
+        content: ""
+      },
       content: "<p>example content</p>",
       editorOption: {
         placeholder: "请输入文章内容",
@@ -92,47 +114,20 @@ export default {
   components: {
     quillEditor
   },
-  props: {
-    title: {
-      type: String,
-      default: "1112"
-    },
-    image: {
-      type: String,
-      default: "rise"
-    },
-    tag: {
-      type: Number,
-      default: null
-    },
-    type: {
-      type: Number,
-      default: null
-    },
-    username: {
-      type: String,
-      default: "1321"
-    }
-    // content: {
-    //   type: String,
-    //   default: "321"
-    // }
-  },
-  mounted() {
-    // console.log("this is current quill instance object", this.editor);
-  },
   methods: {
     async handleSubmit() {
-      console.log('dsadsa');
-      let files = this.$refs.article_image.files;
-      console.log(files);
-      let formData = new FormData();
-      formData.append("file", files[0]);
-      console.log(formData);
       try {
-        const { data } = await ossPut(formData);
-        console.log(data);
-      } catch ({ response }) {
+        let ossBucketConfig = await getBucketConfig();
+        let client = new aliOss(ossBucketConfig.data);
+        let imageObj = this.formData.image;
+        const resultOss = await client.put(
+          `uploads/${imageObj.name}`,
+          imageObj
+        );
+        this.formData.image = resultOss.url;
+        console.log(this.formData);
+        const resultArticle = await storeArticle(this.formData);
+      } catch (response) {
         console.log(response);
       }
     },
@@ -151,19 +146,6 @@ export default {
     onEditorChange({ quill, html, text }) {
       console.log("editor change!", quill, html, text);
       this.content = html;
-    },
-    async uploadImage() {
-      console.log('dsadsa');
-      let files = this.$refs.article_image.files;
-      let formData = new FormData();
-      formData.append("file", files[0]);
-      console.log(formData);
-      try {
-        const { data } = await ossPut(formData);
-        console.log(data);
-      } catch ({ response }) {
-        console.log(response);
-      }
     }
   }
 };
