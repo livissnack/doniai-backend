@@ -49,11 +49,15 @@
           ></b-input>
         </b-field>
         <b-field label="内容">
-          <quill-editor
+          <mavon-editor
+            ref=md
             v-model="formData.content"
-            :options="editorOption"
-            @change="onEditorChange($event)"
-          ></quill-editor>
+            :subfield="false"
+            placeholder="请使用 Markdown 编写"
+            :toolbars="markdownOption.toolbars"
+            @imgAdd="$imgAdd"
+            @imgDel="$imgDel"
+          />
         </b-field>
       </section>
       <footer class="modal-card-foot">
@@ -65,13 +69,13 @@
 </template>
 
 <script>
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-// you can also register quill modules in the component
-import { quillEditor } from "vue-quill-editor";
+import Vue from "vue";
+import mavonEditor from "mavon-editor";
+import "mavon-editor/dist/css/index.css";
 import { getBucketConfig, storeArticle } from "../../../services/api";
 import aliOss from "ali-oss";
+
+Vue.use(mavonEditor);
 export default {
   data() {
     return {
@@ -84,35 +88,44 @@ export default {
         username: "",
         content: ""
       },
-      editorOption: {
-        placeholder: "请输入文章内容",
-        theme: "snow",
-        modules: {
-          toolbar: [
-            ["bold", "italic", "underline", "strike"], // toggled buttons
-            ["blockquote", "code-block"],
-
-            [{ header: 1 }, { header: 2 }], // custom button values
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }], // superscript/subscript
-            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-            [{ direction: "rtl" }], // text direction
-
-            [{ size: ["small", false, "large", "huge"] }], // custom dropdown
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-            [{ font: [] }],
-            [{ align: [] }],
-
-            ["clean"] // remove formatting button
-          ]
+      markdownOption: {
+        toolbars: {
+          bold: true, // 粗体
+          italic: true, // 斜体
+          header: true, // 标题
+          underline: true, // 下划线
+          strikethrough: true, // 中划线
+          mark: true, // 标记
+          superscript: false, // 上角标
+          subscript: false, // 下角标
+          quote: true, // 引用
+          ol: true, // 有序列表
+          ul: true, // 无序列表
+          link: true, // 链接
+          imagelink: true, // 图片链接
+          code: true, // code
+          table: true, // 表格
+          fullscreen: true, // 全屏编辑
+          readmodel: false, // 沉浸式阅读
+          htmlcode: true, // 展示html源码
+          help: true, // 帮助
+          /* 1.3.5 */
+          undo: true, // 上一步
+          redo: true, // 下一步
+          trash: true, // 清空
+          save: true, // 保存（触发events中的save事件）
+          /* 1.4.2 */
+          navigation: false, // 导航目录
+          /* 2.1.8 */
+          alignleft: true, // 左对齐
+          aligncenter: true, // 居中
+          alignright: true, // 右对齐
+           /* 2.2.1 */
+          subfield: false, // 单双栏模式
+          preview: false, // 预览
         }
       }
     };
-  },
-  components: {
-    quillEditor
   },
   methods: {
     async handleSubmit() {
@@ -127,26 +140,35 @@ export default {
         this.formData.image = resultOss.url;
         console.log(this.formData);
         const resultArticle = await storeArticle(this.formData);
+        this.$emit("successArticleModal");
       } catch (response) {
+        this.$emit("failureArticleModal");
         console.log(response);
       }
     },
     handleCancel() {
       this.$emit("closeArticleModal");
     },
-    onEditorBlur(quill) {
-      console.log("editor blur!", quill);
+    async $imgAdd(pos, $file) {
+      console.log(pos, $file);
+      let ossBucketConfig = await getBucketConfig();
+        let client = new aliOss(ossBucketConfig.data);
+        let imageObj = $file;
+        const resultOss = await client.put(
+          `uploads/${imageObj.name}`,
+          imageObj
+        );
+        this.$refs.md.$img2Url(pos, resultOss.url);
     },
-    onEditorFocus(quill) {
-      console.log("editor focus!", quill);
-    },
-    onEditorReady(quill) {
-      console.log("editor ready!", quill);
-    },
-    onEditorChange({ quill, html, text }) {
-      console.log("editor change!", quill, html, text);
-      this.content = html;
+    $imgDel() {
+      console.log('image delete');
     }
   }
 };
 </script>
+
+<style lang="less" scoped>
+.doniai-editor {
+  height: 300px;
+}
+</style>

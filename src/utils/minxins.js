@@ -95,6 +95,43 @@ export default {
           type: "is-danger" 
         });
       }
+    },
+    info(msg='') {
+      this.$notification.open({
+        duration: 2000,
+        message: `${msg}`,
+        position: "is-top-right",
+        type: "is-info",
+        hasIcon: true
+      });
+    },
+    warning(msg='') {
+      this.$notification.open({
+        duration: 2000,
+        message: `${msg}`,
+        position: "is-top-right",
+        type: "is-warning",
+        hasIcon: true
+      });
+    },
+
+    success(msg='') {
+      this.$notification.open({
+        duration: 2000,
+        message: `${msg}`,
+        position: "is-top-right",
+        type: "is-success",
+        hasIcon: true
+      });
+    },
+    danger(msg='') {
+      this.$notification.open({
+        duration: 2000,
+        message: `${msg}`,
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true
+      });
     }
   }
 };

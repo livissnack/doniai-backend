@@ -141,7 +141,7 @@
       </b-tab-item>
     </b-tabs>
     <b-modal :active.sync="isComponentModalActive" has-modal-card>
-      <modal-form v-bind="formProps" @closeArticleModal="handleCloseModal"></modal-form>
+      <modal-form v-bind="formProps" @closeArticleModal="handleCloseModal" @successArticleModal="success('文章新建成功')" @failureArticleModal="danger('文章新建失败')"></modal-form>
     </b-modal>
   </section>
 </template>
