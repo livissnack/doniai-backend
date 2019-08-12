@@ -75,6 +75,7 @@
           :per-page="pagination.pageSize"
           :current-page.sync="pagination.current"
           :total="pagination.total"
+          @change="handlerCurrentChange"
           striped
           narrowed
           paginated

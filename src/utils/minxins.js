@@ -36,11 +36,19 @@ export default {
     }
   },
   methods: {
+    /**
+     * change current page
+     * @param {number} page 
+     */
     handlerCurrentChange(page) {
       this.filters.page = page;
       this.pagination.current = page;
       this.pushHistory();
     },
+    /**
+     * change current pageSize
+     * @param {number} size 
+     */
     handlerSizeChange(size) {
       this.filters.pageSize = size;
       this.pagination.pageSize = size;
@@ -54,6 +62,11 @@ export default {
     pushHistory() {
       this.$router.push({ name: this.$route.name, query: this.filters });
     },
+    /**
+     * delete singer item
+     * @param {number} id 
+     * @param {object} params 
+     */
     async delSin(id, params = {}) {
       try {
         let path = trim(this.$route.path, "/");
@@ -73,9 +86,12 @@ export default {
         });
       }
     },
-    async delAll() {
+    /**
+     * delete some item
+     * @param {array} checkedList 
+     */
+    async delAll(checkedList=[]) {
       try {
-        let checkedList = [];
         this.checkedRows.map(value => {
           checkedList.push(value.id);
         });
