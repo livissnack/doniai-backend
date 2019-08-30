@@ -2257,7 +2257,14 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.npm.taobao.org/builtin-status-codes/download/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
 
-bulma@0.7.5:
+bulma-badge@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/bulma-badge/-/bulma-badge-3.0.1.tgz#835a5b89c6f20fa337ea30a509733908119b2e06"
+  integrity sha512-owRTbInXkpsSrFSvCXyWMNyjcQXr7j3Vj4aSnKYISalcmYqql/YVC7e82M/MXFQG8J66ak5VvIu6dCrdAiQUtQ==
+  dependencies:
+    bulma latest
+
+bulma@0.7.5, bulma@latest:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"
   integrity sha512-cX98TIn0I6sKba/DhW0FBjtaDpxTelU166pf7ICXpCCuplHWyu6C9LYZmL5PEsnePIeJaiorsTEzzNk3Tsm1hw==
@@ -3867,6 +3874,13 @@ eslint-scope@^5.0.0:
   dependencies:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
+
+eslint-utils@@^1.4.1:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/eslint-utils/-/eslint-utils-1.4.2.tgz#166a5180ef6ab7eb462f162fd0e6f2463d7309ab"
+  integrity sha512-eAZS2sEUMlIeCjBeubdj45dmBHQwPHWyBcT1VSYB7o9x9WRRqKxyUoiXlRjyAwzN7YEzHJlYg0NmzDRWx6GP4Q==
+  dependencies:
+    eslint-visitor-keys "^1.0.0"
 
 eslint-utils@^1.3.1:
   version "1.4.0"
