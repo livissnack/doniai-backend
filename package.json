@@ -17,11 +17,11 @@
     "buefy": "^0.7.10",
     "bulma-badge": "^3.0.1",
     "echarts": "^4.2.1",
+    "eslint-utils": "1.4.2",
     "mavon-editor": "^2.7.5",
     "qs": "^6.7.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "eslint-utils": "1.4.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
