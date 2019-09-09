@@ -1,5 +1,4 @@
 import request from "../utils/request";
-import { trim } from "lodash";
 export default {
   data() {
     const pageSize = parseInt(localStorage.getItem("pageSize")) || 20;
@@ -69,7 +68,8 @@ export default {
      */
     async delSin(id, params = {}) {
       try {
-        let path = trim(this.$route.path, "/");
+        let path = this.$route.path;
+        path = path.trimEnd('/');
         const { data } = await request(
           "delete",
           `api/v1/${path}/${id}`,
@@ -95,7 +95,8 @@ export default {
         this.checkedRows.map(value => {
           checkedList.push(value.id);
         });
-        let path = trim(this.$route.path, "/");
+        let path = this.$route.path;
+        path = path.trimEnd('/');
         const { data } = await request(
           "post",
           `api/v1/alldel/${path}`,
