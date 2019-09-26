@@ -182,9 +182,8 @@ export default {
         this.pagination.current = data.data.page;
         this.pagination.pageSize = data.data.perPage;
         this.pagination.total = data.data.total;
-        console.log(this.pagination);
       } catch ({ response }) {
-        console.log(response);
+        this.$toast.open("data loading failure!");
       }
     },
     addArticle() {

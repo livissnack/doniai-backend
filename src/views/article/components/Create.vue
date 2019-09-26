@@ -138,19 +138,17 @@ export default {
           imageObj
         );
         this.formData.image = resultOss.url;
-        console.log(this.formData);
         const resultArticle = await storeArticle(this.formData);
         this.$emit("successArticleModal");
       } catch (response) {
         this.$emit("failureArticleModal");
-        console.log(response);
+        this.$toast.open("image upload failure!");
       }
     },
     handleCancel() {
       this.$emit("closeArticleModal");
     },
     async $imgAdd(pos, $file) {
-      console.log(pos, $file);
       let ossBucketConfig = await getBucketConfig();
         let client = new aliOss(ossBucketConfig.data);
         let imageObj = $file;
@@ -161,7 +159,7 @@ export default {
         this.$refs.md.$img2Url(pos, resultOss.url);
     },
     $imgDel() {
-      console.log('image delete');
+      this.$toast.open("image delete success!");
     }
   }
 };

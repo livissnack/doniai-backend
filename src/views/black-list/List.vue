@@ -138,14 +138,12 @@ export default {
     async getBlackListData() {
       try {
         const { data } = await getBlackLists(this.filters);
-        console.log(data);
         this.data = data.data.data;
         this.pagination.current = data.data.page;
         this.pagination.pageSize = data.data.perPage;
         this.pagination.total = data.data.total;
-        console.log(this.pagination)
       } catch ({ response }) {
-        console.log(response);
+        this.$toast.open("data loading failure!");
       }
     },
     async delAll() {
