@@ -165,7 +165,7 @@
         </b-field>
         <b-field grouped group-multiline custom-class="is-small" class="mt10 ml40">
           <span class="font-center">前往</span>
-          <b-input type="number" v-model="pagination.currentPage" size="is-small"></b-input>
+          <b-input type="number" min="1" :max="paginationPageSum" v-model="pagination.currentPage" size="is-small"></b-input>
           <span class="font-center">页</span>
         </b-field>
         <ul class="pagination-list">
@@ -205,7 +205,9 @@ export default {
   },
   watch: {
     "pagination.currentPage": function(val) {
-      this.getArticleData();
+      if(val>=1 && val<=this.paginationPageSum) {
+        this.getArticleData();
+      }
     }
   },
   data() {
@@ -265,11 +267,6 @@ export default {
         hasIcon: true,
         onConfirm: () => this.$toast.open("Account deleted!")
       });
-    },
-    handleCurrentPage() {
-      console.log(this.pagination)
-      if(this.paginationPageSum >= this.pagination.currentPage+1 && this.pagination.currentPage >= 2) {
-      }
     },
     handlePreviousPage() {
       if(this.paginationPageSum >= this.pagination.currentPage+1) {
