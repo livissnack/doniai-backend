@@ -157,6 +157,7 @@
           <b-select v-model="pagination.perPage" size="is-small">
             <option value="10">10条/页</option>
             <option value="20">20条/页</option>
+            <option value="50">50条/页</option>
             <option value="100">100条/页</option>
             <option value="500">500条/页</option>
             <option value="1000">1000条/页</option>
@@ -208,6 +209,11 @@ export default {
       if(val>=1 && val<=this.paginationPageSum) {
         this.getArticleData();
       }
+    },
+    "pagination.perPage": function(val) {      
+      if([10, 20, 50, 100, 500, 1000].includes(parseInt(val))) {
+        this.getArticleData();
+      }
     }
   },
   data() {
@@ -228,7 +234,7 @@ export default {
       sortIconSize: "is-small",
       pagination: {
         currentPage: 1,
-        perPage: 20,
+        perPage: 10,
         total: 0
       }
     };
@@ -236,7 +242,7 @@ export default {
   methods: {
     async getArticleData() {
       try {
-        const { data } = await getArticles({page: this.pagination.currentPage, perPage: this.pagination.perPage});
+        const { data } = await getArticles({page: this.pagination.currentPage, pageSize: this.pagination.perPage});
         this.data = data.data.data;
         this.pagination.currentPage = data.data.page;
         this.pagination.perPage = data.data.perPage;
