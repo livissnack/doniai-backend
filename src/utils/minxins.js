@@ -9,11 +9,11 @@ export default {
         pageSize,
         page: 1
       },
-      pagination: {
-        current: 1,
-        pageSize,
-        total: 0
-      },
+      // pagination: {
+      //   current: 1,
+      //   pageSize,
+      //   total: 0
+      // },
       loading: false,
       tableHeight
     };

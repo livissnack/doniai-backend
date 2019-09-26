@@ -67,34 +67,36 @@
       </div>
     </div>
 
+    <!-- :paginated="true"
+          :checked-rows.sync="checkedRows"
+          :per-page="pagination.pageSize"
+          :current-page.sync="pagination.current"
+    :total="pagination.total"-->
     <b-tabs>
       <b-tab-item label="文章列表">
         <b-table
           :data="data"
+          :default-sort-direction="defaultSortDirection"
+          :sort-icon="sortIcon"
+          :sort-icon-size="sortIconSize"
           :checked-rows.sync="checkedRows"
-          :per-page="pagination.pageSize"
-          :current-page.sync="pagination.current"
-          :total="pagination.total"
-          @change="handlerCurrentChange"
-          striped
-          narrowed
-          paginated
           checkable
-          ref="table"
-          pagination-size="is-small"
+          default-sort="user.first_name"
           aria-next-label="Next page"
           aria-previous-label="Previous page"
           aria-page-label="Page"
           aria-current-label="Current page"
         >
           <template slot-scope="props">
-            <b-table-column field="id" numeric label="ID" width="40" sortable>{{ props.row.id }}</b-table-column>
+            <b-table-column field="id" label="ID" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
+
             <b-table-column field="title" label="标题" sortable>
               <b-tooltip
                 :label="props.row.title"
                 position="is-right"
               >{{ props.row.title | subZhStr }}</b-tooltip>
             </b-table-column>
+
             <b-table-column field="image" label="封面图片" sortable>
               <figure class="image is-32x32">
                 <img src="https://bulma.io/images/placeholders/128x128.png" />
@@ -140,9 +142,46 @@
           </template>
         </b-table>
       </b-tab-item>
+      <nav class="pagination is-rounded is-small" role="navigation" aria-label="pagination">
+        <a class="pagination-previous" :disabled="paginationPageSum <= pagination.currentPage" @click="handlePreviousPage">
+          <span class="icon">
+            <i class="fas fa-chevron-left"></i>
+          </span>
+        </a>
+        <a class="pagination-next" :disabled="pagination.currentPage <= 1" @click="handleNextPage">
+          <span class="icon">
+            <i class="fas fa-chevron-right"></i>
+          </span>
+        </a>
+        <b-field grouped group-multiline custom-class="is-small" class="mt10">
+          <b-select v-model="pagination.perPage" size="is-small">
+            <option value="10">10条/页</option>
+            <option value="20">20条/页</option>
+            <option value="100">100条/页</option>
+            <option value="500">500条/页</option>
+            <option value="1000">1000条/页</option>
+          </b-select>
+          <span class="font-center">共{{ pagination.total }}条</span>
+        </b-field>
+        <b-field grouped group-multiline custom-class="is-small" class="mt10 ml40">
+          <span class="font-center">前往</span>
+          <b-input type="number" v-model="pagination.currentPage" size="is-small"></b-input>
+          <span class="font-center">页</span>
+        </b-field>
+        <ul class="pagination-list">
+          <li v-for="n in paginationPageSum" :key="n.index">
+            <a class="pagination-link" :class="pagination.currentPage === n ? 'is-current' : ''" :aria-label="'Goto page'+''+n" @click="handleGotoPage(n)">{{ n }}</a>
+          </li>
+        </ul>
+      </nav>
     </b-tabs>
     <b-modal :active.sync="isComponentModalActive" has-modal-card>
-      <modal-form v-bind="formProps" @closeArticleModal="handleCloseModal" @successArticleModal="success('文章新建成功')" @failureArticleModal="danger('文章新建失败')"></modal-form>
+      <modal-form
+        v-bind="formProps"
+        @closeArticleModal="handleCloseModal"
+        @successArticleModal="success('文章新建成功')"
+        @failureArticleModal="danger('文章新建失败')"
+      ></modal-form>
     </b-modal>
   </section>
 </template>
@@ -159,6 +198,16 @@ export default {
   created() {
     this.getArticleData();
   },
+  computed: {
+    paginationPageSum: function() {
+      return Math.ceil(this.pagination.total/this.pagination.perPage);
+    }
+  },
+  watch: {
+    "pagination.currentPage": function(val) {
+      this.getArticleData();
+    }
+  },
   data() {
     return {
       data: [],
@@ -171,16 +220,24 @@ export default {
         type: 1,
         username: "",
         content: ""
+      },
+      defaultSortDirection: "asc",
+      sortIcon: "arrow-up",
+      sortIconSize: "is-small",
+      pagination: {
+        currentPage: 1,
+        perPage: 20,
+        total: 0
       }
     };
   },
   methods: {
     async getArticleData() {
       try {
-        const { data } = await getArticles(this.filters);
+        const { data } = await getArticles({page: this.pagination.currentPage, perPage: this.pagination.perPage});
         this.data = data.data.data;
-        this.pagination.current = data.data.page;
-        this.pagination.pageSize = data.data.perPage;
+        this.pagination.currentPage = data.data.page;
+        this.pagination.perPage = data.data.perPage;
         this.pagination.total = data.data.total;
       } catch ({ response }) {
         this.$toast.open("data loading failure!");
@@ -208,6 +265,24 @@ export default {
         hasIcon: true,
         onConfirm: () => this.$toast.open("Account deleted!")
       });
+    },
+    handleCurrentPage() {
+      console.log(this.pagination)
+      if(this.paginationPageSum >= this.pagination.currentPage+1 && this.pagination.currentPage >= 2) {
+      }
+    },
+    handlePreviousPage() {
+      if(this.paginationPageSum >= this.pagination.currentPage+1) {
+        this.pagination.currentPage += 1;
+      }
+    },
+    handleNextPage() {
+      if(this.pagination.currentPage >= 2) {
+        this.pagination.currentPage -= 1;
+      }
+    },
+    handleGotoPage(currentPage) {
+      this.pagination.currentPage = currentPage;
     }
   }
 };
@@ -243,5 +318,17 @@ export default {
   a {
     margin-right: 10px;
   }
+}
+
+.font-center{
+  line-height: 30px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.ml40{
+  margin-left: 40px;
 }
 </style>
