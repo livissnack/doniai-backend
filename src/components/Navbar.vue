@@ -83,7 +83,7 @@
           <b-dropdown-item value="settings">
             <b-icon icon="settings"></b-icon>系统设置
           </b-dropdown-item>
-          <b-dropdown-item value="logout" aria-role="menuitem">
+          <b-dropdown-item value="logout" aria-role="menuitem" @click="jumpRoute('login')">
             <b-icon icon="logout"></b-icon>系统退出
           </b-dropdown-item>
         </b-dropdown>

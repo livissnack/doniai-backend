@@ -103,10 +103,10 @@
               </figure>
             </b-table-column>
             <b-table-column field="tag" label="标签" sortable>
-              <span class="tag is-success">{{ props.row.articleTag.value }}</span>
+              <span class="ml10 tag is-success" v-for="item in props.row.articleTag" :key="item.index">{{ item.value }}</span>
             </b-table-column>
             <b-table-column field="type" label="类别" sortable>
-              <span class="tag is-danger">{{ props.row.articleType.value }}</span>
+              <span class="ml10 tag is-danger" v-for="item in props.row.articleType" :key="item.index">{{ item.value }}</span>
             </b-table-column>
             <b-table-column field="username" label="作者" sortable>{{ props.row.user.username }}</b-table-column>
             <b-table-column field="content" label="内容" sortable>
@@ -333,5 +333,9 @@ export default {
 
 .ml40{
   margin-left: 40px;
+}
+
+.ml10{
+  margin-left: 10px;
 }
 </style>

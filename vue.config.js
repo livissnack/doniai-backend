@@ -1,17 +1,17 @@
 module.exports = {
   publicPath: "/",
-  // devServer: {
-  //   proxy: {
-  //     "/api": {
-  //       target: "https://api.doniai.com/",
-  //       changeOrigin: true,
-  //       ws: true,
-  //       pathRewrite: {
-  //         "^/api": "/"
-  //       }
-  //     }
-  //   }
-  // },
+  devServer: {
+    proxy: {
+      "/api": {
+        target: "https://api.doniai.com/",
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          "^/api": "/"
+        }
+      }
+    }
+  },
 
   //webpack配置
   configureWebpack: {

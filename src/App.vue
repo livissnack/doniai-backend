@@ -1,25 +1,8 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <Navbar />
-    </div>
     <router-view />
-    <back-top color="#7957D5" :size="1.1" :slow="10"></back-top>
   </div>
 </template>
-
-<script>
-import Vue from "vue";
-import Navbar from "@/components/Navbar.vue";
-import BackTop from "@mlqt/vue-back-top";
-Vue.use(BackTop);
-export default {
-  components: {
-    Navbar
-  }
-};
-</script>
-
 
 <style lang="less">
 #app {
@@ -27,20 +10,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-color: #f2f7f8;
-}
-
-#nav {
-  padding: 0 0 10px 0;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 
 .text-right {

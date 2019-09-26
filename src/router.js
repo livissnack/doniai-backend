@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
@@ -9,15 +8,15 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "home",
-      component: Home
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/user/Login.vue")
     },
     {
-      path: "/layout",
-      name: "layout",
+      path: "/",
       component: () => import("@/views/Layout.vue"),
       children: [
+        { path: "/", component: () => import("@/views/Home.vue"), name: "home" },
         { path: "/articles", component: () => import("@/views/article/List.vue"), name: "articlesList" },
         { path: "/blacklists", component: () => import("@/views/black-list/List.vue"), name: "blacklistsList" },
         { path: "/books", component: () => import("@/views/book/List.vue"), name: "booksList" },
