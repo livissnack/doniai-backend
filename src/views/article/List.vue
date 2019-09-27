@@ -207,6 +207,7 @@ export default {
     },
     "pagination.perPage": function(val) {      
       if([10, 20, 50, 100, 500, 1000].includes(parseInt(val))) {
+        this.pagination.currentPage = this.paginationPageSum;
         this.getArticleData();
       }
     }
