@@ -83,7 +83,7 @@
           <b-dropdown-item value="settings">
             <b-icon icon="settings"></b-icon>系统设置
           </b-dropdown-item>
-          <b-dropdown-item value="logout" aria-role="menuitem" @click="jumpRoute('login')">
+          <b-dropdown-item value="logout" aria-role="menuitem" @click="handleLogout">
             <b-icon icon="logout"></b-icon>系统退出
           </b-dropdown-item>
         </b-dropdown>
@@ -102,7 +102,14 @@ export default {
   },
   methods: {
     jumpRoute(name) {
-      this.$router.push({ path: `/${name}` });
+      if(name !== this.$route.name) {
+        this.$router.push({ name: `${name}` });
+      }
+    },
+    handleLogout() {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('login_status');
+      this.$router.push({ name: `login` });
     }
   }
 };

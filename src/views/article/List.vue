@@ -67,11 +67,6 @@
       </div>
     </div>
 
-    <!-- :paginated="true"
-          :checked-rows.sync="checkedRows"
-          :per-page="pagination.pageSize"
-          :current-page.sync="pagination.current"
-    :total="pagination.total"-->
     <b-tabs>
       <b-tab-item label="文章列表">
         <b-table

@@ -1,4 +1,5 @@
 import request from "../utils/request";
+import { apiVersion } from "../utils/config";
 export default {
   data() {
     const pageSize = parseInt(localStorage.getItem("pageSize")) || 20;
@@ -72,7 +73,7 @@ export default {
         path = path.trimEnd('/');
         const { data } = await request(
           "delete",
-          `api/v1/${path}/${id}`,
+          `${apiVersion}/${path}/${id}`,
           params
         );
         this.$toast.open({
@@ -99,7 +100,7 @@ export default {
         path = path.trimEnd('/');
         const { data } = await request(
           "post",
-          `api/v1/alldel/${path}`,
+          `${apiVersion}/alldel/${path}`,
           checkedList
         );
         this.$toast.open({

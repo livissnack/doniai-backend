@@ -1,4 +1,5 @@
 import request from "../utils/request";
+import { apiVersion } from "../utils/config";
 
 /*
 |--------------------------------------------------------------------------
@@ -13,23 +14,23 @@ import request from "../utils/request";
 |
 */
 export async function getArticles(params) {
-  return request("get", "api/v1/articles", params);
+  return request("get", `${apiVersion}/articles`, params);
 }
 
 export async function storeArticle(params) {
-  return request("post", `api/v1/articles`, params);
+  return request("post", `${apiVersion}/articles`, params);
 }
 
 export async function showArticle(id, params) {
-  return request("get", `api/v1/articles/${id}`, params);
+  return request("get", `${apiVersion}/articles/${id}`, params);
 }
 
 export async function updateArticle(id, params) {
-  return request("put", `api/v1/articles/${id}`, params);
+  return request("put", `${apiVersion}/articles/${id}`, params);
 }
 
 export async function destroyArticle(id, params) {
-  return request("delete", `api/v1/articles/${id}`, params);
+  return request("delete", `${apiVersion}/articles/${id}`, params);
 }
 
 /*
@@ -45,23 +46,23 @@ export async function destroyArticle(id, params) {
 |
 */
 export async function getBlackLists(params) {
-  return request("get", "api/v1/blacklists", params);
+  return request("get", `${apiVersion}/blacklists`, params);
 }
 
 export async function storeBlackList(params) {
-  return request("post", `api/v1/blacklists`, params);
+  return request("post", `${apiVersion}/blacklists`, params);
 }
 
 export async function showBlackList(id, params) {
-  return request("get", `api/v1/blacklists/${id}`, params);
+  return request("get", `${apiVersion}/blacklists/${id}`, params);
 }
 
 export async function updateBlackList(id, params) {
-  return request("put", `api/v1/blacklists/${id}`, params);
+  return request("put", `${apiVersion}/blacklists/${id}`, params);
 }
 
 export async function destroyBlackList(id, params) {
-  return request("delete", `api/v1/blacklists/${id}`, params);
+  return request("delete", `${apiVersion}/blacklists/${id}`, params);
 }
 
 /*
@@ -77,23 +78,23 @@ export async function destroyBlackList(id, params) {
 |
 */
 export async function getBooks(params) {
-  return request("get", "api/v1/books", params);
+  return request("get", `${apiVersion}/books`, params);
 }
 
 export async function storeBook(params) {
-  return request("post", `api/v1/books`, params);
+  return request("post", `${apiVersion}/books`, params);
 }
 
 export async function showBook(id, params) {
-  return request("get", `api/v1/books/${id}`, params);
+  return request("get", `${apiVersion}/books/${id}`, params);
 }
 
 export async function updateBook(id, params) {
-  return request("put", `api/v1/books/${id}`, params);
+  return request("put", `${apiVersion}/books/${id}`, params);
 }
 
 export async function destroyBook(id, params) {
-  return request("delete", `api/v1/books/${id}`, params);
+  return request("delete", `${apiVersion}/books/${id}`, params);
 }
 
 /*
@@ -109,23 +110,23 @@ export async function destroyBook(id, params) {
 |
 */
 export async function getComments(params) {
-  return request("get", "api/v1/comments", params);
+  return request("get", `${apiVersion}/comments`, params);
 }
 
 export async function storeComment(params) {
-  return request("post", `api/v1/comments`, params);
+  return request("post", `${apiVersion}/comments`, params);
 }
 
 export async function showComment(id, params) {
-  return request("get", `api/v1/comments/${id}`, params);
+  return request("get", `${apiVersion}/comments/${id}`, params);
 }
 
 export async function updateComment(id, params) {
-  return request("put", `api/v1/comments/${id}`, params);
+  return request("put", `${apiVersion}/comments/${id}`, params);
 }
 
 export async function destroyComment(id, params) {
-  return request("delete", `api/v1/comments/${id}`, params);
+  return request("delete", `${apiVersion}/comments/${id}`, params);
 }
 
 /*
@@ -141,23 +142,23 @@ export async function destroyComment(id, params) {
 |
 */
 export async function getCourses(params) {
-  return request("get", "api/v1/courses", params);
+  return request("get", "${apiVersion}/courses", params);
 }
 
 export async function storeCourse(params) {
-  return request("post", `api/v1/courses`, params);
+  return request("post", `${apiVersion}/courses`, params);
 }
 
 export async function showCourse(id, params) {
-  return request("get", `api/v1/courses/${id}`, params);
+  return request("get", `${apiVersion}/courses/${id}`, params);
 }
 
 export async function updateCourse(id, params) {
-  return request("put", `api/v1/courses/${id}`, params);
+  return request("put", `${apiVersion}/courses/${id}`, params);
 }
 
 export async function destroyCourse(id, params) {
-  return request("delete", `api/v1/courses/${id}`, params);
+  return request("delete", `${apiVersion}/courses/${id}`, params);
 }
 
 /*
@@ -173,23 +174,23 @@ export async function destroyCourse(id, params) {
 |
 */
 export async function getLinks(params) {
-  return request("get", "api/v1/links", params);
+  return request("get", `${apiVersion}/links`, params);
 }
 
 export async function storeLink(params) {
-  return request("post", `api/v1/links`, params);
+  return request("post", `${apiVersion}/links`, params);
 }
 
 export async function showLink(id, params) {
-  return request("get", `api/v1/links/${id}`, params);
+  return request("get", `${apiVersion}/links/${id}`, params);
 }
 
 export async function updateLink(id, params) {
-  return request("put", `api/v1/links/${id}`, params);
+  return request("put", `${apiVersion}/links/${id}`, params);
 }
 
 export async function destroyLink(id, params) {
-  return request("delete", `api/v1/links/${id}`, params);
+  return request("delete", `${apiVersion}/links/${id}`, params);
 }
 
 
@@ -206,23 +207,23 @@ export async function destroyLink(id, params) {
 |
 */
 export async function getQuestions(params) {
-  return request("get", "api/v1/questions", params);
+  return request("get", `${apiVersion}/questions`, params);
 }
 
 export async function storeQuestion(params) {
-  return request("post", `api/v1/questions`, params);
+  return request("post", `${apiVersion}/questions`, params);
 }
 
 export async function showQuestion(id, params) {
-  return request("get", `api/v1/questions/${id}`, params);
+  return request("get", `${apiVersion}/questions/${id}`, params);
 }
 
 export async function updateQuestion(id, params) {
-  return request("put", `api/v1/questions/${id}`, params);
+  return request("put", `${apiVersion}/questions/${id}`, params);
 }
 
 export async function destroyQuestion(id, params) {
-  return request("delete", `api/v1/questions/${id}`, params);
+  return request("delete", `${apiVersion}/questions/${id}`, params);
 }
 
 /*
@@ -238,23 +239,23 @@ export async function destroyQuestion(id, params) {
 |
 */
 export async function getReplays(params) {
-  return request("get", "api/v1/replays", params);
+  return request("get", `${apiVersion}/replays`, params);
 }
 
 export async function storeReplay(params) {
-  return request("post", `api/v1/replays`, params);
+  return request("post", `${apiVersion}/replays`, params);
 }
 
 export async function showReplay(id, params) {
-  return request("get", `api/v1/replays/${id}`, params);
+  return request("get", `${apiVersion}/replays/${id}`, params);
 }
 
 export async function updateReplay(id, params) {
-  return request("put", `api/v1/replays/${id}`, params);
+  return request("put", `${apiVersion}/replays/${id}`, params);
 }
 
 export async function destroyReplay(id, params) {
-  return request("delete", `api/v1/replays/${id}`, params);
+  return request("delete", `${apiVersion}/replays/${id}`, params);
 }
 
 /*
@@ -270,23 +271,23 @@ export async function destroyReplay(id, params) {
 |
 */
 export async function getUsers(params) {
-  return request("get", "api/v1/users", params);
+  return request("get", `${apiVersion}/users`, params);
 }
 
 export async function storeUser(params) {
-  return request("post", `api/v1/users`, params);
+  return request("post", `${apiVersion}/users`, params);
 }
 
 export async function showUser(id, params) {
-  return request("get", `api/v1/users/${id}`, params);
+  return request("get", `${apiVersion}/users/${id}`, params);
 }
 
 export async function updateUser(id, params) {
-  return request("put", `api/v1/users/${id}`, params);
+  return request("put", `${apiVersion}/users/${id}`, params);
 }
 
 export async function destroyUser(id, params) {
-  return request("delete", `api/v1/users/${id}`, params);
+  return request("delete", `${apiVersion}/users/${id}`, params);
 }
 
 /*
@@ -302,23 +303,23 @@ export async function destroyUser(id, params) {
 |
 */
 export async function getVideos(params) {
-  return request("get", "api/v1/videos", params);
+  return request("get", `${apiVersion}/videos`, params);
 }
 
 export async function storeVideo(params) {
-  return request("post", `api/v1/videos`, params);
+  return request("post", `${apiVersion}/videos`, params);
 }
 
 export async function showVideo(id, params) {
-  return request("get", `api/v1/videos/${id}`, params);
+  return request("get", `${apiVersion}/videos/${id}`, params);
 }
 
 export async function updateVideo(id, params) {
-  return request("put", `api/v1/videos/${id}`, params);
+  return request("put", `${apiVersion}/videos/${id}`, params);
 }
 
 export async function destroyVideo(id, params) {
-  return request("delete", `api/v1/videos/${id}`, params);
+  return request("delete", `${apiVersion}/videos/${id}`, params);
 }
 
 
@@ -331,9 +332,22 @@ export async function destroyVideo(id, params) {
 
 //file upload config
 export async function getBucketConfig(params) {
-  return request("get", `api/v1/oss/getBucketConfig`, params);
+  return request("get", `${apiVersion}/oss/getBucketConfig`, params);
 }
 
+
+//user some handle
+export async function userLogin(params) {
+  return request("post", `${apiVersion}/login`, params);
+}
+
+export async function userRegister(params) {
+  return request("post", `${apiVersion}/register`, params);
+}
+
+export async function userLogout(params) {
+  return request("get", `${apiVersion}/logout`, params);
+}
 
 
 
