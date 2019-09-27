@@ -9,7 +9,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/login",
+      path: "/",
       name: "login",
       component: () => import("@/views/user/Login.vue")
     },
@@ -17,7 +17,7 @@ export default new Router({
       path: "/",
       component: () => import("@/views/Layout.vue"),
       children: [
-        { path: "/", component: Home, name: "home" },
+        { path: "/home", component: Home, name: "home" },
         { path: "/articles", component: () => import("@/views/article/List.vue"), name: "articles" },
         { path: "/blacklists", component: () => import("@/views/black-list/List.vue"), name: "blacklists" },
         { path: "/books", component: () => import("@/views/book/List.vue"), name: "booksList" },
