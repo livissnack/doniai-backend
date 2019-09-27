@@ -4,26 +4,45 @@ import Home from "@/views/Home.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
+      path: "/login",
       name: "login",
-      component: () => import("@/views/user/Login.vue")
+      component: () => import("@/views/user/Login.vue"),
+      meta: {isLogin: false, title: '登录页'}
     },
     {
       path: "/",
       component: () => import("@/views/Layout.vue"),
       children: [
-        { path: "/home", component: Home, name: "home" },
-        { path: "/articles", component: () => import("@/views/article/List.vue"), name: "articles" },
-        { path: "/blacklists", component: () => import("@/views/black-list/List.vue"), name: "blacklists" },
-        { path: "/books", component: () => import("@/views/book/List.vue"), name: "booksList" },
-        { path: "/articles/add", component: () => import("@/views/article/Create.vue"), name: "articlesAdd" },
-        { path: "/test", component: () => import("@/components/NoticeMsg.vue"), name: "Timer" },
+        { path: "/", component: Home, name: "home", meta: {isLogin: true, title: '首页'} },
+        { path: "/articles", component: () => import("@/views/article/List.vue"), name: "articles", meta: {isLogin: true, title: '文章页'} },
+        { path: "/blacklists", component: () => import("@/views/black-list/List.vue"), name: "blacklists", meta: {isLogin: true, title: '黑名单页'} },
+        { path: "/books", component: () => import("@/views/book/List.vue"), name: "books", meta: {isLogin: true, title: '书籍页'} },
+        { path: "/articles/add", component: () => import("@/views/article/Create.vue"), name: "articlesAdd", meta: {isLogin: true, title: '创建文章'} },
+        { path: "/test", component: () => import("@/components/NoticeMsg.vue"), name: "Timer", meta: {isLogin: false, title: '测试页'} },
       ]
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const isLogin = localStorage.getItem('access_token') && localStorage.getItem('login_status');
+  if(to.meta.isLogin) {
+    if(isLogin) {
+      next();
+    }else{
+      next({ path: '/login'});
+    }
+  }else{
+    next();
+  }
+  if(to.meta.title) {
+    document.title = to.meta.title;
+  }
+});
+
+export default router;
