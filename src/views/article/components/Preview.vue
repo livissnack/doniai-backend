@@ -16,7 +16,7 @@
         </b-field>
         <b-field label="图片">
           <figure class="image is-128x128">
-            <img :src="formData.image">
+            <img :src="formData.image" />
           </figure>
         </b-field>
         <b-field label="标签">
@@ -46,7 +46,7 @@
         </b-field>
         <b-field label="内容">
           <mavon-editor
-            ref=md
+            ref="md"
             v-model="formData.content"
             :subfield="false"
             placeholder="请使用 Markdown 编写"
@@ -120,21 +120,21 @@ export default {
           alignleft: true, // 左对齐
           aligncenter: true, // 居中
           alignright: true, // 右对齐
-           /* 2.2.1 */
+          /* 2.2.1 */
           subfield: false, // 单双栏模式
-          preview: false, // 预览
+          preview: false // 预览
         }
       }
     };
   },
   created() {
-    this.formData.title = this.article.title
-    this.formData.image = this.article.image
-    this.formData.tag = null
-    this.formData.type = null
-    this.formData.username = this.article.user.username
-    this.formData.content = this.article.content
-    console.log(this.article)
+    this.formData.title = this.article.title;
+    this.formData.image = this.article.image;
+    this.formData.tag = null;
+    this.formData.type = null;
+    this.formData.username = this.article.user.username;
+    this.formData.content = this.article.content;
+    console.log(this.article);
   },
   methods: {
     handleCancel() {
@@ -142,13 +142,10 @@ export default {
     },
     async $imgAdd(pos, $file) {
       let ossBucketConfig = await getBucketConfig();
-        let client = new aliOss(ossBucketConfig.data);
-        let imageObj = $file;
-        const resultOss = await client.put(
-          `uploads/${imageObj.name}`,
-          imageObj
-        );
-        this.$refs.md.$img2Url(pos, resultOss.url);
+      let client = new aliOss(ossBucketConfig.data);
+      let imageObj = $file;
+      const resultOss = await client.put(`uploads/${imageObj.name}`, imageObj);
+      this.$refs.md.$img2Url(pos, resultOss.url);
     },
     $imgDel() {
       this.$toast.open("image delete success!");
