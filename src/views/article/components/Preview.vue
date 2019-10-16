@@ -14,7 +14,7 @@
             required
           ></b-input>
         </b-field>
-        <b-field class="file">
+        <b-field label="图片">
           <figure class="image is-128x128">
             <img :src="formData.image">
           </figure>
