@@ -49,7 +49,7 @@
       </div>
 
       <div class="handle-list">
-        <b-button class="button is-small is-danger" @click="isComponentModalActive = true">
+        <b-button class="button is-small is-danger" @click="isComponentModalCreateActive = true">
           <span class="icon">
             <i class="fas fa-plus"></i>
           </span>
@@ -61,7 +61,7 @@
             <b-icon icon="menu-down"></b-icon>
           </button>
 
-          <b-dropdown-item aria-role="listitem">导出文章</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="handleExport">导出文章</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="delAll">批量删除</b-dropdown-item>
         </b-dropdown>
       </div>
@@ -111,19 +111,19 @@
               >{{ props.row.content | subZhStr }}</b-tooltip>
             </b-table-column>
             <b-table-column field="handles" label="操作">
-              <a class="button search-btn is-small is-warning">
+              <a class="button search-btn is-small is-warning" @click="isComponentModalEditActive = true">
                 <span class="icon">
                   <i class="fas fa-edit"></i>
                 </span>
                 <span>编辑</span>
               </a>
-              <a class="button search-btn is-small is-danger" @click="confirmCustomDelete">
+              <a class="button search-btn is-small is-danger" @click="del(props.row)">
                 <span class="icon">
                   <i class="fas fa-trash-alt"></i>
                 </span>
                 <span>删除</span>
               </a>
-              <a class="button search-btn is-small is-success">
+              <a class="button search-btn is-small is-success" @click="preview(props.row)">
                 <span class="icon">
                   <i class="fas fa-eye"></i>
                 </span>
@@ -171,25 +171,45 @@
         </ul>
       </nav>
     </b-tabs>
-    <b-modal :active.sync="isComponentModalActive" has-modal-card>
-      <modal-form
-        v-bind="formProps"
-        @closeArticleModal="handleCloseModal"
+    <b-modal :active.sync="isComponentModalCreateActive" has-modal-card>
+      <modal-create-form
+        @closeArticleModal="handleCloseModal('create')"
         @successArticleModal="success('文章新建成功')"
         @failureArticleModal="danger('文章新建失败')"
-      ></modal-form>
+      ></modal-create-form>
+    </b-modal>
+
+    <b-modal :active.sync="isComponentModalEditActive" has-modal-card>
+      <modal-edit-form
+        @closeArticleModal="handleCloseModal('edit')"
+        @successArticleModal="success('文章修改成功')"
+        @failureArticleModal="danger('文章修改失败')"
+      ></modal-edit-form>
+    </b-modal>
+
+    <b-modal :active.sync="isComponentModalPreviewActive" has-modal-card>
+      <modal-preview-form
+        :article="selectedArticle"
+        @closeArticleModal="handleCloseModal('preview')"
+        @successArticleModal="success('文章新建成功')"
+        @failureArticleModal="danger('文章新建失败')"
+      ></modal-preview-form>
     </b-modal>
   </section>
 </template>
 
 <script>
-import { getArticles } from "../../services/api";
+import { getArticles, destroyArticle } from "../../services/api";
 import List from "../../utils/minxins";
-import ModalForm from "./components/Create";
+import ModalCreateForm from "./components/Create";
+import ModalEditForm from "./components/Edit";
+import ModalPreviewForm from "./components/Preview";
 export default {
   mixins: [List],
   components: {
-    ModalForm
+    ModalCreateForm,
+    ModalEditForm,
+    ModalPreviewForm
   },
   created() {
     this.getArticleData();
@@ -216,15 +236,9 @@ export default {
     return {
       data: [],
       checkedRows: [],
-      isComponentModalActive: false,
-      formProps: {
-        title: "",
-        image: "",
-        tag: 1,
-        type: 1,
-        username: "",
-        content: ""
-      },
+      isComponentModalCreateActive: false,
+      isComponentModalEditActive: false,
+      isComponentModalPreviewActive: false,
       defaultSortDirection: "asc",
       sortIcon: "arrow-up",
       sortIconSize: "is-small",
@@ -232,7 +246,8 @@ export default {
         currentPage: 1,
         perPage: 10,
         total: 0
-      }
+      },
+      selectedArticle: null
     };
   },
   methods: {
@@ -244,22 +259,26 @@ export default {
         this.pagination.perPage = data.data.perPage;
         this.pagination.total = data.data.total;
       } catch ({ response }) {
-        this.$toast.open("data loading failure!");
+        this.$buefy.toast.open({ type: 'is-danger', message: "文章数据加载失败"})
       }
     },
-    addArticle() {
-      this.$modal.open({
-        parent: this,
-        component: ModalForm,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2"
-      });
+    handleCloseModal(type) {
+      if(!['create', 'edit', 'preview'].includes(type)) {
+        this.$toast.open("selected type error!");
+      }
+      if(type === 'create') {
+        this.isComponentModalCreateActive = false;
+      }
+      if(type === 'edit') {
+        this.isComponentModalEditActive = false;
+      }
+      if(type === 'preview') {
+        this.isComponentModalPreviewActive = false;
+      }
+      
     },
-    handleCloseModal() {
-      this.isComponentModalActive = false;
-    },
-    confirmCustomDelete() {
-      this.$dialog.confirm({
+    del(article) {
+      this.$buefy.dialog.confirm({
         size: "is-small",
         title: "文章删除",
         message: "你确定 <b>删除</b> 这篇文章吗？不妨在考虑一下吧！",
@@ -267,8 +286,26 @@ export default {
         cancelText: "取消",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: () => this.$toast.open("Account deleted!")
+        onConfirm: async() => {
+          const { data } = await destroyArticle(article.id)
+          if(data.status === 'success') {
+            await this.getArticleData();
+            this.$buefy.toast.open({ type: 'is-success', message: "文章删除成功"})
+          }else{
+            this.$buefy.toast.open({ type: 'is-danger', message: "文章删除失败"})
+          }
+        }
       });
+    },
+    preview(article) {
+      this.isComponentModalPreviewActive = true
+      this.selectedArticle = article
+    },
+    delAll() {
+      console.log(this.checkedRows)
+    },
+    handleExport() {
+      console.log('export excel data')
     },
     handlePreviousPage() {
       if(this.paginationPageSum >= this.pagination.currentPage+1) {

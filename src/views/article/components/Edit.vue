@@ -2,7 +2,7 @@
   <form action>
     <div class="modal-card" style="width: 800px; height: auto;">
       <header class="modal-card-head">
-        <p class="modal-card-title">新建文章</p>
+        <p class="modal-card-title">修改文章</p>
       </header>
       <section class="modal-card-body">
         <b-field label="标题">

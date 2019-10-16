@@ -57,6 +57,7 @@
           <b-dropdown-item aria-role="listitem">数据统计</b-dropdown-item>
           <b-dropdown-item aria-role="listitem">权限分配</b-dropdown-item>
           <b-dropdown-item aria-role="listitem">数据可视化</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem">服务器监控</b-dropdown-item>
         </b-dropdown>
       </div>
       <div class="navbar-end">
@@ -67,11 +68,11 @@
           </a>
 
           <b-dropdown-item has-link aria-role="menuitem">
-            <a href="https://google.com" target="_blank">
+            <a href="https://www.google.com" target="_blank">
               <b-icon icon="link"></b-icon>快速Google
             </a>
           </b-dropdown-item>
-          <b-dropdown-item value="home" aria-role="menuitem" @click="jumpRoute('')">
+          <b-dropdown-item value="home" aria-role="menuitem" @click="jumpRoute('home')">
             <b-icon icon="home"></b-icon>回到首页
           </b-dropdown-item>
           <b-dropdown-item value="products" aria-role="menuitem">

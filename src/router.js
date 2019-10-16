@@ -22,7 +22,6 @@ const router = new Router({
         { path: "/articles", component: () => import("@/views/article/List.vue"), name: "articles", meta: {isLogin: true, title: '文章页'} },
         { path: "/blacklists", component: () => import("@/views/black-list/List.vue"), name: "blacklists", meta: {isLogin: true, title: '黑名单页'} },
         { path: "/books", component: () => import("@/views/book/List.vue"), name: "books", meta: {isLogin: true, title: '书籍页'} },
-        { path: "/articles/add", component: () => import("@/views/article/Create.vue"), name: "articlesAdd", meta: {isLogin: true, title: '创建文章'} },
         { path: "/test", component: () => import("@/components/NoticeMsg.vue"), name: "Timer", meta: {isLogin: false, title: '测试页'} },
       ]
     }

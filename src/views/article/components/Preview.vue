@@ -2,7 +2,7 @@
   <form action>
     <div class="modal-card" style="width: 800px; height: auto;">
       <header class="modal-card-head">
-        <p class="modal-card-title">新建文章</p>
+        <p class="modal-card-title">预览文章</p>
       </header>
       <section class="modal-card-body">
         <b-field label="标题">
@@ -15,13 +15,9 @@
           ></b-input>
         </b-field>
         <b-field class="file">
-          <b-upload v-model="uploadImg" required>
-            <a class="button is-primary">
-              <b-icon icon="upload"></b-icon>
-              <span></span>
-            </a>
-          </b-upload>
-          <span class="file-name" v-if="uploadImg">{{ uploadImg.name }}</span>
+          <figure class="image is-128x128">
+            <img :src="formData.image">
+          </figure>
         </b-field>
         <b-field label="标签">
           <b-select size="is-small" v-model="formData.tag" placeholder="请选择标签" required>
@@ -61,8 +57,7 @@
         </b-field>
       </section>
       <footer class="modal-card-foot">
-        <b-button size="is-small" type="is-primary" @click="handleSubmit">提交</b-button>
-        <b-button size="is-small" type="is-danger" @click="handleCancel">取消</b-button>
+        <b-button size="is-small" type="is-danger" @click="handleCancel">关闭</b-button>
       </footer>
     </div>
   </form>
@@ -77,9 +72,14 @@ import aliOss from "ali-oss";
 
 Vue.use(mavonEditor);
 export default {
+  props: {
+    article: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      uploadImg: [],
       formData: {
         title: "",
         image: "",
@@ -127,24 +127,16 @@ export default {
       }
     };
   },
+  created() {
+    this.formData.title = this.article.title
+    this.formData.image = this.article.image
+    this.formData.tag = null
+    this.formData.type = null
+    this.formData.username = this.article.user.username
+    this.formData.content = this.article.content
+    console.log(this.article)
+  },
   methods: {
-    async handleSubmit() {
-      try {
-        let ossBucketConfig = await getBucketConfig();
-        let client = new aliOss(ossBucketConfig.data);
-        let imageObj = this.uploadImg;
-        const resultOss = await client.put(
-          `uploads/${imageObj.name}`,
-          imageObj
-        );
-        this.formData.image = resultOss.url;
-        const resultArticle = await storeArticle(this.formData);
-        this.$emit("successArticleModal");
-      } catch (response) {
-        this.$emit("failureArticleModal");
-        this.$toast.open("image upload failure!");
-      }
-    },
     handleCancel() {
       this.$emit("closeArticleModal");
     },

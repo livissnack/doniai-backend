@@ -67,18 +67,11 @@
                 <AreaStackLine chartTitle="收入排行榜"/>
             </div>
         </div>
-
-        <div class="columns">
-            <div class="column">
-                <Footer/>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
     // @ is an alias to /src
-    import Footer from '@/components/Footer.vue'
     import PieSimple from '@/components/charts/PieSimple.vue'
     import IncomeLine from '@/components/charts/IncomeLine.vue'
     import AreaStackLine from '@/components/charts/AreaStackLine.vue'
@@ -152,7 +145,6 @@
             }
         },
         components: {
-            Footer,
             PieSimple,
             IncomeLine,
             AreaStackLine,
