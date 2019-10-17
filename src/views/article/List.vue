@@ -18,6 +18,7 @@
       <div class="search-list">
         <b-field class="search-item">
           <b-input
+            v-model="filter.username"
             class="search-item-box"
             placeholder="作者"
             size="is-small"
@@ -25,6 +26,7 @@
             icon="magnify"
           ></b-input>
           <b-input
+            v-model="filter.title"
             class="search-item-box"
             placeholder="文章标题"
             size="is-small"
@@ -32,19 +34,19 @@
             icon="magnify"
           ></b-input>
           <b-field class="search-item-box">
-            <b-select placeholder="类别" size="is-small" expanded>
-              <option value="flint">技术</option>
+            <b-select placeholder="类别" v-model="filter.article_type" size="is-small" expanded>
+              <option v-for="article_type_content in article_types" :value="article_type_content.value" :key="article_type_content.id">{{ article_type_content.value }}</option>
               <option value="silver">散文</option>
             </b-select>
           </b-field>
 
           <b-field>
-            <b-datepicker size="is-small" placeholder="起始时间" icon="calendar-today" editable></b-datepicker>
+            <b-datepicker size="is-small" v-model="filter.time_between.start_time" placeholder="起始时间" icon="calendar-today" editable></b-datepicker>
             <span>~</span>
-            <b-datepicker size="is-small" placeholder="起始时间" icon="calendar-today" editable></b-datepicker>
+            <b-datepicker size="is-small" v-model="filter.time_between.end_time" placeholder="起始时间" icon="calendar-today" editable></b-datepicker>
           </b-field>
 
-          <a class="button search-btn is-small is-info">搜索</a>
+          <a class="button search-btn is-small is-info" @click="handleSearch">搜索</a>
         </b-field>
       </div>
 
@@ -199,7 +201,7 @@
 </template>
 
 <script>
-import { getArticles, destroyArticle } from "../../services/api";
+import { getArticles, destroyArticle, batchDeleteArticle, getArticleTypes } from "../../services/api";
 import List from "../../utils/minxins";
 import ModalCreateForm from "./components/Create";
 import ModalEditForm from "./components/Edit";
@@ -213,6 +215,7 @@ export default {
   },
   created() {
     this.getArticleData();
+    this.getArticleType();
   },
   computed: {
     paginationPageSum: function() {
@@ -234,7 +237,17 @@ export default {
   },
   data() {
     return {
+      filter: {
+        username: null,
+        title: null,
+        article_type: null,
+        time_between: {
+          start_time: new Date(),
+          end_time: new Date()
+        }
+      },
       data: [],
+      article_types: [],
       checkedRows: [],
       isComponentModalCreateActive: false,
       isComponentModalEditActive: false,
@@ -262,6 +275,17 @@ export default {
         this.$buefy.toast.open({ type: 'is-danger', message: "文章数据加载失败"})
       }
     },
+    async getArticleType() {
+      try {
+        const { data } = await getArticleTypes();
+        this.article_types = data;
+      } catch ({ response }) {
+        this.$buefy.toast.open({ type: 'is-danger', message: "文章所有分类数据加载失败"})
+      }
+    },
+    async handleSearch() {
+      console.log(this.filter)
+    },
     handleCloseModal(type) {
       if(!['create', 'edit', 'preview'].includes(type)) {
         this.$toast.open("selected type error!");
@@ -275,7 +299,6 @@ export default {
       if(type === 'preview') {
         this.isComponentModalPreviewActive = false;
       }
-      
     },
     del(article) {
       this.$buefy.dialog.confirm({
@@ -301,8 +324,19 @@ export default {
       this.isComponentModalPreviewActive = true
       this.selectedArticle = article
     },
-    delAll() {
-      console.log(this.checkedRows)
+    async delAll() {
+      try {
+        const ids = this.checkedRows.map(item => item.id)
+        const { data } = await batchDeleteArticle(ids);
+        if(data.status === 'success') {
+          await this.getArticleData();
+          this.$buefy.toast.open({ type: 'is-success', message: "文章删除成功"})
+        }else{
+          this.$buefy.toast.open({ type: 'is-danger', message: "文章删除失败"})
+        }
+      } catch ({ response }) {
+        this.$buefy.toast.open({ type: 'is-danger', message: "文章批量删除异常"})
+      }
     },
     handleExport() {
       console.log('export excel data')

@@ -33,6 +33,10 @@ export async function destroyArticle(id, params) {
   return request("delete", `${apiVersion}/articles/${id}`, params);
 }
 
+export async function batchDeleteArticle(params) {
+  return request("delete", `${apiVersion}/articles`, params);
+}
+
 /*
 |--------------------------------------------------------------------------
 | blackList api methods
@@ -322,6 +326,37 @@ export async function destroyVideo(id, params) {
   return request("delete", `${apiVersion}/videos/${id}`, params);
 }
 
+/*
+|--------------------------------------------------------------------------
+| enum api methods
+|--------------------------------------------------------------------------
+|
+| getArticleTypes(get enum list data)
+| getArticleTags(get enum list data)
+| getQuestionTypes(get enum list data)
+| getQuestionTags(get enum list data)
+| getCourseTypes(get enum list data)
+|
+*/
+export async function getArticleTypes() {
+  return request("get", `${apiVersion}/article_types`);
+}
+
+export async function getArticleTags() {
+  return request("get", `${apiVersion}/article_tags`);
+}
+
+export async function getQuestionTypes() {
+  return request("get", `${apiVersion}/question_types`);
+}
+
+export async function getQuestionTags() {
+  return request("get", `${apiVersion}/question_tags`);
+}
+
+export async function getCourseTypes() {
+  return request("get", `${apiVersion}/course_types`);
+}
 
 
 
