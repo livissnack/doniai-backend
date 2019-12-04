@@ -6,7 +6,7 @@
 
 <style lang="less">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -38,5 +38,21 @@
 
 .text-primary {
   color: #01d1b2;
+}
+
+.font-center {
+  line-height: 30px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.ml40 {
+  margin-left: 40px;
+}
+
+.ml10 {
+  margin-left: 10px;
 }
 </style>

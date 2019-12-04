@@ -68,6 +68,24 @@ const router = new Router({
           meta: { isLogin: true, title: '品信产品页' }
         },
         {
+          path: '/hspx/product/add',
+          component: () => import('@/views/hspx/ProductAdd.vue'),
+          name: 'pxProductAdd',
+          meta: { isLogin: true, title: '品信产品添加页' }
+        },
+        {
+          path: '/hspx/product/edit/:id',
+          component: () => import('@/views/hspx/ProductEdit.vue'),
+          name: 'pxProductEdit',
+          meta: { isLogin: true, title: '品信产品编辑页' }
+        },
+        {
+          path: '/hspx/product/preview/:id',
+          component: () => import('@/views/hspx/ProductPreview.vue'),
+          name: 'pxProductPreview',
+          meta: { isLogin: true, title: '品信产品预览页' }
+        },
+        {
           path: '/hspx/question',
           component: () => import('@/views/hspx/Question.vue'),
           name: 'pxQuestion',

@@ -427,20 +427,4 @@ export default {
     margin-right: 10px;
   }
 }
-
-.font-center {
-  line-height: 30px;
-}
-
-.mt10 {
-  margin-top: 10px;
-}
-
-.ml40 {
-  margin-left: 40px;
-}
-
-.ml10 {
-  margin-left: 10px;
-}
 </style>
