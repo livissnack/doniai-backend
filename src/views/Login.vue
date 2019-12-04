@@ -75,15 +75,14 @@ export default {
     async submitLogin () {
       try {
         const { data } = await userLogin(this.form);
-        console.log(data);
-        this.user = data.data;
-        if (data.data) {
-          localStorage.setItem("access_token", `${data.data.type} ${data.data.token}`);
+        this.user = data;
+        if (data) {
+          localStorage.setItem("access_token", `${data.type} ${data.token}`);
           localStorage.setItem("login_status", `logined`);
           this.$router.push({ name: "home" });
         }
       } catch ({ response }) {
-        this.$toast.open("user login failure!");
+        this.$buefy.toast.open({ type: 'is-danger', message: "user login failure!" })
       }
     }
   }

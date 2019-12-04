@@ -18,7 +18,7 @@
       <div class="search-list">
         <b-field class="search-item">
           <b-input
-            v-model="filter.username"
+            v-model="filters.username"
             class="search-item-box"
             placeholder="作者"
             size="is-small"
@@ -26,7 +26,7 @@
             icon="magnify"
           ></b-input>
           <b-input
-            v-model="filter.title"
+            v-model="filters.title"
             class="search-item-box"
             placeholder="文章标题"
             size="is-small"
@@ -34,7 +34,7 @@
             icon="magnify"
           ></b-input>
           <b-field class="search-item-box">
-            <b-select placeholder="类别" v-model="filter.article_type" size="is-small" expanded>
+            <b-select placeholder="类别" v-model="filters.article_type" size="is-small" expanded>
               <option
                 v-for="article_type_content in article_types"
                 :value="article_type_content.value"
@@ -47,7 +47,7 @@
           <b-field>
             <b-datepicker
               size="is-small"
-              v-model="filter.time_between.start_time"
+              v-model="filters.time_between.start_time"
               placeholder="起始时间"
               icon="calendar-today"
               editable
@@ -55,7 +55,7 @@
             <span>~</span>
             <b-datepicker
               size="is-small"
-              v-model="filter.time_between.end_time"
+              v-model="filters.time_between.end_time"
               placeholder="起始时间"
               icon="calendar-today"
               editable
@@ -279,7 +279,7 @@ export default {
   },
   data () {
     return {
-      filter: {
+      filters: {
         username: null,
         title: null,
         article_type: null,
@@ -297,22 +297,18 @@ export default {
       defaultSortDirection: "asc",
       sortIcon: "arrow-up",
       sortIconSize: "is-small",
-      pagination: {
-        currentPage: 1,
-        perPage: 10,
-        total: 0
-      },
       selectedArticle: null
     };
   },
   methods: {
     async getArticleData () {
       try {
-        const { data } = await getArticles({ page: this.pagination.currentPage, pageSize: this.pagination.perPage });
-        this.data = data.data.data;
-        this.pagination.currentPage = data.data.page;
-        this.pagination.perPage = data.data.perPage;
-        this.pagination.total = data.data.total;
+        console.log(this.filters)
+        const { data } = await getArticles({ page: this.pagination.currentPage, perPage: this.pagination.perPage });
+        this.data = data.data;
+        this.pagination.currentPage = data.page;
+        this.pagination.perPage = data.perPage;
+        this.pagination.total = data.total;
       } catch ({ response }) {
         this.$buefy.toast.open({ type: 'is-danger', message: "文章数据加载失败" })
       }
@@ -326,7 +322,7 @@ export default {
       }
     },
     async handleSearch () {
-      console.log(this.filter)
+      console.log(this.filters)
     },
     handleCloseModal (type) {
       if (!['create', 'edit', 'preview'].includes(type)) {

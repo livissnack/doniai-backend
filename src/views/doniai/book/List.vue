@@ -143,10 +143,10 @@ export default {
     async getBookData () {
       try {
         const { data } = await getBooks(this.filters);
-        this.data = data.data.data;
-        this.pagination.current = data.data.page;
-        this.pagination.pageSize = data.data.perPage;
-        this.pagination.total = data.data.total;
+        this.data = data.data;
+        this.pagination.currentPage = data.page;
+        this.pagination.perPage = data.perPage;
+        this.pagination.total = data.total;
       } catch ({ response }) {
         this.$toast.open("data loading failure!");
       }
