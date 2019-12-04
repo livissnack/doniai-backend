@@ -6,7 +6,14 @@
       </b-field>
 
       <b-field label="密码" :type="rules.password.status" :message="rules.password.message">
-        <b-input type="password" icon="lock" v-model="form.password" maxlength="64" password-reveal @keyup.enter.native="submitLogin"></b-input>
+        <b-input
+          type="password"
+          icon="lock"
+          v-model="form.password"
+          maxlength="64"
+          password-reveal
+          @keyup.enter.native="submitLogin"
+        ></b-input>
       </b-field>
 
       <b-field type="is-success">
@@ -21,9 +28,9 @@
 </template>
 
 <script>
-import { userLogin } from "../../services/api";
+import { userLogin } from "../services/common.js";
 export default {
-  data() {
+  data () {
     return {
       form: {
         email: 'iv@jilip.gy',
@@ -42,34 +49,35 @@ export default {
       user: {}
     };
   },
-   watch: {
-    "form.email": function(val) {
+  watch: {
+    "form.email": function (val) {
       const reg = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-      if(!reg.test(val) || val.length < 6 || val.length > 30) {
+      if (!reg.test(val) || val.length < 6 || val.length > 30) {
         this.rules.email.message = "邮箱格式不正确";
         this.rules.email.status = "is-danger";
-      }else{
+      } else {
         this.rules.email.message = "";
         this.rules.email.status = "is-success";
       }
     },
-    "form.password": function(val) {
-      const reg = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;     
-      if(!reg.test(val) || val.length < 6 || val.length > 30) {
+    "form.password": function (val) {
+      const reg = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+      if (!reg.test(val) || val.length < 6 || val.length > 30) {
         this.rules.password.message = "密码最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符";
         this.rules.password.status = "is-danger";
-      }else{
+      } else {
         this.rules.password.message = "";
         this.rules.password.status = "is-success";
       }
     }
   },
   methods: {
-    async submitLogin() {
+    async submitLogin () {
       try {
         const { data } = await userLogin(this.form);
+        console.log(data);
         this.user = data.data;
-        if(data.data) {
+        if (data.data) {
           localStorage.setItem("access_token", `${data.data.type} ${data.data.token}`);
           localStorage.setItem("login_status", `logined`);
           this.$router.push({ name: "home" });

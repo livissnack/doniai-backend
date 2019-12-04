@@ -2,7 +2,7 @@
   <form action>
     <div class="modal-card" style="width: 800px; height: auto;">
       <header class="modal-card-head">
-        <p class="modal-card-title">修改文章</p>
+        <p class="modal-card-title">新建文章</p>
       </header>
       <section class="modal-card-body">
         <b-field label="标题">
@@ -50,7 +50,7 @@
         </b-field>
         <b-field label="内容">
           <mavon-editor
-            ref=md
+            ref="md"
             v-model="formData.content"
             :subfield="false"
             placeholder="请使用 Markdown 编写"
@@ -72,12 +72,13 @@
 import Vue from "vue";
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-import { getBucketConfig, storeArticle } from "../../../services/api";
+import { storeArticle } from "../../../../services/doniai";
+import { getBucketConfig } from "../../../../services/common";
 import aliOss from "ali-oss";
 
 Vue.use(mavonEditor);
 export default {
-  data() {
+  data () {
     return {
       uploadImg: [],
       formData: {
@@ -120,7 +121,7 @@ export default {
           alignleft: true, // 左对齐
           aligncenter: true, // 居中
           alignright: true, // 右对齐
-           /* 2.2.1 */
+          /* 2.2.1 */
           subfield: false, // 单双栏模式
           preview: false, // 预览
         }
@@ -128,7 +129,7 @@ export default {
     };
   },
   methods: {
-    async handleSubmit() {
+    async handleSubmit () {
       try {
         let ossBucketConfig = await getBucketConfig();
         let client = new aliOss(ossBucketConfig.data);
@@ -145,20 +146,20 @@ export default {
         this.$toast.open("image upload failure!");
       }
     },
-    handleCancel() {
+    handleCancel () {
       this.$emit("closeArticleModal");
     },
-    async $imgAdd(pos, $file) {
+    async $imgAdd (pos, $file) {
       let ossBucketConfig = await getBucketConfig();
-        let client = new aliOss(ossBucketConfig.data);
-        let imageObj = $file;
-        const resultOss = await client.put(
-          `uploads/${imageObj.name}`,
-          imageObj
-        );
-        this.$refs.md.$img2Url(pos, resultOss.url);
+      let client = new aliOss(ossBucketConfig.data);
+      let imageObj = $file;
+      const resultOss = await client.put(
+        `uploads/${imageObj.name}`,
+        imageObj
+      );
+      this.$refs.md.$img2Url(pos, resultOss.url);
     },
-    $imgDel() {
+    $imgDel () {
       this.$toast.open("image delete success!");
     }
   }

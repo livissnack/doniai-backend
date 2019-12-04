@@ -35,15 +35,31 @@
           ></b-input>
           <b-field class="search-item-box">
             <b-select placeholder="类别" v-model="filter.article_type" size="is-small" expanded>
-              <option v-for="article_type_content in article_types" :value="article_type_content.value" :key="article_type_content.id">{{ article_type_content.value }}</option>
+              <option
+                v-for="article_type_content in article_types"
+                :value="article_type_content.value"
+                :key="article_type_content.id"
+              >{{ article_type_content.value }}</option>
               <option value="silver">散文</option>
             </b-select>
           </b-field>
 
           <b-field>
-            <b-datepicker size="is-small" v-model="filter.time_between.start_time" placeholder="起始时间" icon="calendar-today" editable></b-datepicker>
+            <b-datepicker
+              size="is-small"
+              v-model="filter.time_between.start_time"
+              placeholder="起始时间"
+              icon="calendar-today"
+              editable
+            ></b-datepicker>
             <span>~</span>
-            <b-datepicker size="is-small" v-model="filter.time_between.end_time" placeholder="起始时间" icon="calendar-today" editable></b-datepicker>
+            <b-datepicker
+              size="is-small"
+              v-model="filter.time_between.end_time"
+              placeholder="起始时间"
+              icon="calendar-today"
+              editable
+            ></b-datepicker>
           </b-field>
 
           <a class="button search-btn is-small is-info" @click="handleSearch">搜索</a>
@@ -100,10 +116,18 @@
               </figure>
             </b-table-column>
             <b-table-column field="tag" label="标签" sortable>
-              <span class="ml10 tag is-success" v-for="item in props.row.articleTag" :key="item.index">{{ item.value }}</span>
+              <span
+                class="ml10 tag is-success"
+                v-for="item in props.row.articleTag"
+                :key="item.index"
+              >{{ item.value }}</span>
             </b-table-column>
             <b-table-column field="type" label="类别" sortable>
-              <span class="ml10 tag is-danger" v-for="item in props.row.articleType" :key="item.index">{{ item.value }}</span>
+              <span
+                class="ml10 tag is-danger"
+                v-for="item in props.row.articleType"
+                :key="item.index"
+              >{{ item.value }}</span>
             </b-table-column>
             <b-table-column field="username" label="作者" sortable>{{ props.row.user.username }}</b-table-column>
             <b-table-column field="content" label="内容" sortable>
@@ -113,7 +137,10 @@
               >{{ props.row.content | subZhStr }}</b-tooltip>
             </b-table-column>
             <b-table-column field="handles" label="操作">
-              <a class="button search-btn is-small is-warning" @click="isComponentModalEditActive = true">
+              <a
+                class="button search-btn is-small is-warning"
+                @click="isComponentModalEditActive = true"
+              >
                 <span class="icon">
                   <i class="fas fa-edit"></i>
                 </span>
@@ -140,7 +167,11 @@
         </b-table>
       </b-tab-item>
       <nav class="pagination is-rounded is-small" role="navigation" aria-label="pagination">
-        <a class="pagination-previous" :disabled="paginationPageSum <= pagination.currentPage" @click="handlePreviousPage">
+        <a
+          class="pagination-previous"
+          :disabled="paginationPageSum <= pagination.currentPage"
+          @click="handlePreviousPage"
+        >
           <span class="icon">
             <i class="fas fa-chevron-left"></i>
           </span>
@@ -163,12 +194,23 @@
         </b-field>
         <b-field grouped group-multiline custom-class="is-small" class="mt10 ml40">
           <span class="font-center">前往</span>
-          <b-input type="number" min="1" :max="paginationPageSum" v-model="pagination.currentPage" size="is-small"></b-input>
+          <b-input
+            type="number"
+            min="1"
+            :max="paginationPageSum"
+            v-model="pagination.currentPage"
+            size="is-small"
+          ></b-input>
           <span class="font-center">页</span>
         </b-field>
         <ul class="pagination-list">
           <li v-for="n in paginationPageSum" :key="n.index">
-            <a class="pagination-link" :class="pagination.currentPage === n ? 'is-current' : ''" :aria-label="'Goto page'+''+n" @click="handleGotoPage(n)">{{ n }}</a>
+            <a
+              class="pagination-link"
+              :class="pagination.currentPage === n ? 'is-current' : ''"
+              :aria-label="'Goto page'+''+n"
+              @click="handleGotoPage(n)"
+            >{{ n }}</a>
           </li>
         </ul>
       </nav>
@@ -201,8 +243,8 @@
 </template>
 
 <script>
-import { getArticles, destroyArticle, batchDeleteArticle, getArticleTypes } from "../../services/api";
-import List from "../../utils/minxins";
+import { getArticles, destroyArticle, batchDeleteArticle, getArticleTypes } from "../../../services/doniai";
+import List from "../../../utils/minxins";
 import ModalCreateForm from "./components/Create";
 import ModalEditForm from "./components/Edit";
 import ModalPreviewForm from "./components/Preview";
@@ -213,29 +255,29 @@ export default {
     ModalEditForm,
     ModalPreviewForm
   },
-  created() {
+  created () {
     this.getArticleData();
     this.getArticleType();
   },
   computed: {
-    paginationPageSum: function() {
-      return Math.ceil(this.pagination.total/this.pagination.perPage);
+    paginationPageSum: function () {
+      return Math.ceil(this.pagination.total / this.pagination.perPage);
     }
   },
   watch: {
-    "pagination.currentPage": function(val) {
-      if(val>=1 && val<=this.paginationPageSum) {
+    "pagination.currentPage": function (val) {
+      if (val >= 1 && val <= this.paginationPageSum) {
         this.getArticleData();
       }
     },
-    "pagination.perPage": function(val) {      
-      if([10, 20, 50, 100, 500, 1000].includes(parseInt(val))) {
+    "pagination.perPage": function (val) {
+      if ([10, 20, 50, 100, 500, 1000].includes(parseInt(val))) {
         this.pagination.currentPage = this.paginationPageSum;
         this.getArticleData();
       }
     }
   },
-  data() {
+  data () {
     return {
       filter: {
         username: null,
@@ -264,43 +306,43 @@ export default {
     };
   },
   methods: {
-    async getArticleData() {
+    async getArticleData () {
       try {
-        const { data } = await getArticles({page: this.pagination.currentPage, pageSize: this.pagination.perPage});
+        const { data } = await getArticles({ page: this.pagination.currentPage, pageSize: this.pagination.perPage });
         this.data = data.data.data;
         this.pagination.currentPage = data.data.page;
         this.pagination.perPage = data.data.perPage;
         this.pagination.total = data.data.total;
       } catch ({ response }) {
-        this.$buefy.toast.open({ type: 'is-danger', message: "文章数据加载失败"})
+        this.$buefy.toast.open({ type: 'is-danger', message: "文章数据加载失败" })
       }
     },
-    async getArticleType() {
+    async getArticleType () {
       try {
         const { data } = await getArticleTypes();
         this.article_types = data;
       } catch ({ response }) {
-        this.$buefy.toast.open({ type: 'is-danger', message: "文章所有分类数据加载失败"})
+        this.$buefy.toast.open({ type: 'is-danger', message: "文章所有分类数据加载失败" })
       }
     },
-    async handleSearch() {
+    async handleSearch () {
       console.log(this.filter)
     },
-    handleCloseModal(type) {
-      if(!['create', 'edit', 'preview'].includes(type)) {
+    handleCloseModal (type) {
+      if (!['create', 'edit', 'preview'].includes(type)) {
         this.$toast.open("selected type error!");
       }
-      if(type === 'create') {
+      if (type === 'create') {
         this.isComponentModalCreateActive = false;
       }
-      if(type === 'edit') {
+      if (type === 'edit') {
         this.isComponentModalEditActive = false;
       }
-      if(type === 'preview') {
+      if (type === 'preview') {
         this.isComponentModalPreviewActive = false;
       }
     },
-    del(article) {
+    del (article) {
       this.$buefy.dialog.confirm({
         size: "is-small",
         title: "文章删除",
@@ -309,49 +351,49 @@ export default {
         cancelText: "取消",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: async() => {
+        onConfirm: async () => {
           const { data } = await destroyArticle(article.id)
-          if(data.status === 'success') {
+          if (data.status === 'success') {
             await this.getArticleData();
-            this.$buefy.toast.open({ type: 'is-success', message: "文章删除成功"})
-          }else{
-            this.$buefy.toast.open({ type: 'is-danger', message: "文章删除失败"})
+            this.$buefy.toast.open({ type: 'is-success', message: "文章删除成功" })
+          } else {
+            this.$buefy.toast.open({ type: 'is-danger', message: "文章删除失败" })
           }
         }
       });
     },
-    preview(article) {
+    preview (article) {
       this.isComponentModalPreviewActive = true
       this.selectedArticle = article
     },
-    async delAll() {
+    async delAll () {
       try {
         const ids = this.checkedRows.map(item => item.id)
         const { data } = await batchDeleteArticle(ids);
-        if(data.status === 'success') {
+        if (data.status === 'success') {
           await this.getArticleData();
-          this.$buefy.toast.open({ type: 'is-success', message: "文章删除成功"})
-        }else{
-          this.$buefy.toast.open({ type: 'is-danger', message: "文章删除失败"})
+          this.$buefy.toast.open({ type: 'is-success', message: "文章删除成功" })
+        } else {
+          this.$buefy.toast.open({ type: 'is-danger', message: "文章删除失败" })
         }
       } catch ({ response }) {
-        this.$buefy.toast.open({ type: 'is-danger', message: "文章批量删除异常"})
+        this.$buefy.toast.open({ type: 'is-danger', message: "文章批量删除异常" })
       }
     },
-    handleExport() {
+    handleExport () {
       console.log('export excel data')
     },
-    handlePreviousPage() {
-      if(this.paginationPageSum >= this.pagination.currentPage+1) {
+    handlePreviousPage () {
+      if (this.paginationPageSum >= this.pagination.currentPage + 1) {
         this.pagination.currentPage += 1;
       }
     },
-    handleNextPage() {
-      if(this.pagination.currentPage >= 2) {
+    handleNextPage () {
+      if (this.pagination.currentPage >= 2) {
         this.pagination.currentPage -= 1;
       }
     },
-    handleGotoPage(currentPage) {
+    handleGotoPage (currentPage) {
       this.pagination.currentPage = currentPage;
     }
   }
@@ -390,7 +432,7 @@ export default {
   }
 }
 
-.font-center{
+.font-center {
   line-height: 30px;
 }
 
@@ -398,11 +440,11 @@ export default {
   margin-top: 10px;
 }
 
-.ml40{
+.ml40 {
   margin-left: 40px;
 }
 
-.ml10{
+.ml10 {
   margin-left: 10px;
 }
 </style>

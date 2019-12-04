@@ -1,5 +1,5 @@
-import request from "../utils/request";
-import { apiVersion } from "../utils/config";
+import request from '../utils/request'
+import { doniaiApiVersion } from '../utils/config'
 
 /*
 |--------------------------------------------------------------------------
@@ -11,30 +11,36 @@ import { apiVersion } from "../utils/config";
 | showArticle(shwo article data)
 | updateArticle(update article data)
 | destroyArticle(destroy article data)
+| batchDeleteArticle
+| exportArticles
 |
 */
 export async function getArticles(params) {
-  return request("get", `${apiVersion}/articles`, params);
+  return request('get', `${doniaiApiVersion}/articles`, params)
 }
 
 export async function storeArticle(params) {
-  return request("post", `${apiVersion}/articles`, params);
+  return request('post', `${doniaiApiVersion}/articles`, params)
 }
 
 export async function showArticle(id, params) {
-  return request("get", `${apiVersion}/articles/${id}`, params);
+  return request('get', `${doniaiApiVersion}/articles/${id}`, params)
 }
 
 export async function updateArticle(id, params) {
-  return request("put", `${apiVersion}/articles/${id}`, params);
+  return request('put', `${doniaiApiVersion}/articles/${id}`, params)
 }
 
 export async function destroyArticle(id, params) {
-  return request("delete", `${apiVersion}/articles/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/articles/${id}`, params)
 }
 
 export async function batchDeleteArticle(params) {
-  return request("delete", `${apiVersion}/articles`, params);
+  return request('delete', `${doniaiApiVersion}/articles`, params)
+}
+
+export async function exportArticles(params) {
+  return request('get', `${doniaiApiVersion}/export/articles`, params)
 }
 
 /*
@@ -50,23 +56,23 @@ export async function batchDeleteArticle(params) {
 |
 */
 export async function getBlackLists(params) {
-  return request("get", `${apiVersion}/blacklists`, params);
+  return request('get', `${doniaiApiVersion}/blacklists`, params)
 }
 
 export async function storeBlackList(params) {
-  return request("post", `${apiVersion}/blacklists`, params);
+  return request('post', `${doniaiApiVersion}/blacklists`, params)
 }
 
 export async function showBlackList(id, params) {
-  return request("get", `${apiVersion}/blacklists/${id}`, params);
+  return request('get', `${doniaiApiVersion}/blacklists/${id}`, params)
 }
 
 export async function updateBlackList(id, params) {
-  return request("put", `${apiVersion}/blacklists/${id}`, params);
+  return request('put', `${doniaiApiVersion}/blacklists/${id}`, params)
 }
 
 export async function destroyBlackList(id, params) {
-  return request("delete", `${apiVersion}/blacklists/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/blacklists/${id}`, params)
 }
 
 /*
@@ -82,23 +88,23 @@ export async function destroyBlackList(id, params) {
 |
 */
 export async function getBooks(params) {
-  return request("get", `${apiVersion}/books`, params);
+  return request('get', `${doniaiApiVersion}/books`, params)
 }
 
 export async function storeBook(params) {
-  return request("post", `${apiVersion}/books`, params);
+  return request('post', `${doniaiApiVersion}/books`, params)
 }
 
 export async function showBook(id, params) {
-  return request("get", `${apiVersion}/books/${id}`, params);
+  return request('get', `${doniaiApiVersion}/books/${id}`, params)
 }
 
 export async function updateBook(id, params) {
-  return request("put", `${apiVersion}/books/${id}`, params);
+  return request('put', `${doniaiApiVersion}/books/${id}`, params)
 }
 
 export async function destroyBook(id, params) {
-  return request("delete", `${apiVersion}/books/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/books/${id}`, params)
 }
 
 /*
@@ -114,23 +120,23 @@ export async function destroyBook(id, params) {
 |
 */
 export async function getComments(params) {
-  return request("get", `${apiVersion}/comments`, params);
+  return request('get', `${doniaiApiVersion}/comments`, params)
 }
 
 export async function storeComment(params) {
-  return request("post", `${apiVersion}/comments`, params);
+  return request('post', `${doniaiApiVersion}/comments`, params)
 }
 
 export async function showComment(id, params) {
-  return request("get", `${apiVersion}/comments/${id}`, params);
+  return request('get', `${doniaiApiVersion}/comments/${id}`, params)
 }
 
 export async function updateComment(id, params) {
-  return request("put", `${apiVersion}/comments/${id}`, params);
+  return request('put', `${doniaiApiVersion}/comments/${id}`, params)
 }
 
 export async function destroyComment(id, params) {
-  return request("delete", `${apiVersion}/comments/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/comments/${id}`, params)
 }
 
 /*
@@ -146,23 +152,23 @@ export async function destroyComment(id, params) {
 |
 */
 export async function getCourses(params) {
-  return request("get", "${apiVersion}/courses", params);
+  return request('get', '${doniaiApiVersion}/courses', params)
 }
 
 export async function storeCourse(params) {
-  return request("post", `${apiVersion}/courses`, params);
+  return request('post', `${doniaiApiVersion}/courses`, params)
 }
 
 export async function showCourse(id, params) {
-  return request("get", `${apiVersion}/courses/${id}`, params);
+  return request('get', `${doniaiApiVersion}/courses/${id}`, params)
 }
 
 export async function updateCourse(id, params) {
-  return request("put", `${apiVersion}/courses/${id}`, params);
+  return request('put', `${doniaiApiVersion}/courses/${id}`, params)
 }
 
 export async function destroyCourse(id, params) {
-  return request("delete", `${apiVersion}/courses/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/courses/${id}`, params)
 }
 
 /*
@@ -178,25 +184,24 @@ export async function destroyCourse(id, params) {
 |
 */
 export async function getLinks(params) {
-  return request("get", `${apiVersion}/links`, params);
+  return request('get', `${doniaiApiVersion}/links`, params)
 }
 
 export async function storeLink(params) {
-  return request("post", `${apiVersion}/links`, params);
+  return request('post', `${doniaiApiVersion}/links`, params)
 }
 
 export async function showLink(id, params) {
-  return request("get", `${apiVersion}/links/${id}`, params);
+  return request('get', `${doniaiApiVersion}/links/${id}`, params)
 }
 
 export async function updateLink(id, params) {
-  return request("put", `${apiVersion}/links/${id}`, params);
+  return request('put', `${doniaiApiVersion}/links/${id}`, params)
 }
 
 export async function destroyLink(id, params) {
-  return request("delete", `${apiVersion}/links/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/links/${id}`, params)
 }
-
 
 /*
 |--------------------------------------------------------------------------
@@ -211,23 +216,23 @@ export async function destroyLink(id, params) {
 |
 */
 export async function getQuestions(params) {
-  return request("get", `${apiVersion}/questions`, params);
+  return request('get', `${doniaiApiVersion}/questions`, params)
 }
 
 export async function storeQuestion(params) {
-  return request("post", `${apiVersion}/questions`, params);
+  return request('post', `${doniaiApiVersion}/questions`, params)
 }
 
 export async function showQuestion(id, params) {
-  return request("get", `${apiVersion}/questions/${id}`, params);
+  return request('get', `${doniaiApiVersion}/questions/${id}`, params)
 }
 
 export async function updateQuestion(id, params) {
-  return request("put", `${apiVersion}/questions/${id}`, params);
+  return request('put', `${doniaiApiVersion}/questions/${id}`, params)
 }
 
 export async function destroyQuestion(id, params) {
-  return request("delete", `${apiVersion}/questions/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/questions/${id}`, params)
 }
 
 /*
@@ -243,23 +248,23 @@ export async function destroyQuestion(id, params) {
 |
 */
 export async function getReplays(params) {
-  return request("get", `${apiVersion}/replays`, params);
+  return request('get', `${doniaiApiVersion}/replays`, params)
 }
 
 export async function storeReplay(params) {
-  return request("post", `${apiVersion}/replays`, params);
+  return request('post', `${doniaiApiVersion}/replays`, params)
 }
 
 export async function showReplay(id, params) {
-  return request("get", `${apiVersion}/replays/${id}`, params);
+  return request('get', `${doniaiApiVersion}/replays/${id}`, params)
 }
 
 export async function updateReplay(id, params) {
-  return request("put", `${apiVersion}/replays/${id}`, params);
+  return request('put', `${doniaiApiVersion}/replays/${id}`, params)
 }
 
 export async function destroyReplay(id, params) {
-  return request("delete", `${apiVersion}/replays/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/replays/${id}`, params)
 }
 
 /*
@@ -275,23 +280,23 @@ export async function destroyReplay(id, params) {
 |
 */
 export async function getUsers(params) {
-  return request("get", `${apiVersion}/users`, params);
+  return request('get', `${doniaiApiVersion}/users`, params)
 }
 
 export async function storeUser(params) {
-  return request("post", `${apiVersion}/users`, params);
+  return request('post', `${doniaiApiVersion}/users`, params)
 }
 
 export async function showUser(id, params) {
-  return request("get", `${apiVersion}/users/${id}`, params);
+  return request('get', `${doniaiApiVersion}/users/${id}`, params)
 }
 
 export async function updateUser(id, params) {
-  return request("put", `${apiVersion}/users/${id}`, params);
+  return request('put', `${doniaiApiVersion}/users/${id}`, params)
 }
 
 export async function destroyUser(id, params) {
-  return request("delete", `${apiVersion}/users/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/users/${id}`, params)
 }
 
 /*
@@ -307,23 +312,23 @@ export async function destroyUser(id, params) {
 |
 */
 export async function getVideos(params) {
-  return request("get", `${apiVersion}/videos`, params);
+  return request('get', `${doniaiApiVersion}/videos`, params)
 }
 
 export async function storeVideo(params) {
-  return request("post", `${apiVersion}/videos`, params);
+  return request('post', `${doniaiApiVersion}/videos`, params)
 }
 
 export async function showVideo(id, params) {
-  return request("get", `${apiVersion}/videos/${id}`, params);
+  return request('get', `${doniaiApiVersion}/videos/${id}`, params)
 }
 
 export async function updateVideo(id, params) {
-  return request("put", `${apiVersion}/videos/${id}`, params);
+  return request('put', `${doniaiApiVersion}/videos/${id}`, params)
 }
 
 export async function destroyVideo(id, params) {
-  return request("delete", `${apiVersion}/videos/${id}`, params);
+  return request('delete', `${doniaiApiVersion}/videos/${id}`, params)
 }
 
 /*
@@ -339,54 +344,21 @@ export async function destroyVideo(id, params) {
 |
 */
 export async function getArticleTypes() {
-  return request("get", `${apiVersion}/article_types`);
+  return request('get', `${doniaiApiVersion}/article_types`)
 }
 
 export async function getArticleTags() {
-  return request("get", `${apiVersion}/article_tags`);
+  return request('get', `${doniaiApiVersion}/article_tags`)
 }
 
 export async function getQuestionTypes() {
-  return request("get", `${apiVersion}/question_types`);
+  return request('get', `${doniaiApiVersion}/question_types`)
 }
 
 export async function getQuestionTags() {
-  return request("get", `${apiVersion}/question_tags`);
+  return request('get', `${doniaiApiVersion}/question_tags`)
 }
 
 export async function getCourseTypes() {
-  return request("get", `${apiVersion}/course_types`);
+  return request('get', `${doniaiApiVersion}/course_types`)
 }
-
-
-
-
-
-
-
-
-//file upload config
-export async function getBucketConfig(params) {
-  return request("get", `${apiVersion}/oss/getBucketConfig`, params);
-}
-
-
-//user some handle
-export async function userLogin(params) {
-  return request("post", `${apiVersion}/login`, params);
-}
-
-export async function userRegister(params) {
-  return request("post", `${apiVersion}/register`, params);
-}
-
-export async function userLogout(params) {
-  return request("get", `${apiVersion}/logout`, params);
-}
-
-
-
-
-
-
-

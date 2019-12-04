@@ -9,7 +9,7 @@
           <a href="#">Doniai管理</a>
         </li>
         <li class="is-active">
-          <a href="#">黑名单管理</a>
+          <a href="#">书籍管理</a>
         </li>
       </ul>
     </nav>
@@ -19,15 +19,15 @@
         <b-field class="search-item">
           <b-input
             class="search-item-box"
-            placeholder="IP地址"
+            placeholder="书名"
             size="is-small"
             type="search"
             icon="magnify"
           ></b-input>
           <b-field class="search-item-box">
-            <b-select placeholder="状态" size="is-small" expanded>
-              <option value="flint">放行</option>
-              <option value="silver">禁用</option>
+            <b-select placeholder="是否推荐" size="is-small" expanded>
+              <option value="flint">推荐</option>
+              <option value="silver">不推荐</option>
             </b-select>
           </b-field>
 
@@ -54,14 +54,14 @@
             <b-icon icon="menu-down"></b-icon>
           </button>
 
-          <b-dropdown-item aria-role="listitem">导出黑名单</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem">导出书籍</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="delAll">批量删除</b-dropdown-item>
         </b-dropdown>
       </div>
     </div>
 
     <b-tabs>
-      <b-tab-item label="黑名单列表">
+      <b-tab-item label="书籍列表">
         <b-table
           :data="data"
           :checked-rows.sync="checkedRows"
@@ -81,12 +81,17 @@
         >
           <template slot-scope="props">
             <b-table-column field="id" numeric label="ID" width="40" sortable>{{ props.row.id }}</b-table-column>
-            <b-table-column field="ip" label="IP地址" sortable>{{ props.row.ip }}</b-table-column>
-            <b-table-column field="status" label="状态" sortable>
-              <span class="tag is-success">{{ props.row.status }}</span>
+            <b-table-column field="name" label="书名" sortable>
+              <b-tooltip :label="props.row.name" position="is-right">{{ props.row.name | subZhStr }}</b-tooltip>
             </b-table-column>
-            <b-table-column field="release_start_time" label="禁用开始时间" sortable>{{ props.row.release_start_time }}</b-table-column>
-            <b-table-column field="release_end_time" label="禁用结束时间" sortable>{{ props.row.release_end_time }}</b-table-column>
+            <b-table-column field="image" label="图片" sortable>
+              <figure class="image is-32x32">
+                <img src="https://bulma.io/images/placeholders/128x128.png" />
+              </figure>
+            </b-table-column>
+            <b-table-column field="is_recommend" label="是否推荐" sortable>
+              <span class="tag is-success">{{ props.row.is_recommend }}</span>
+            </b-table-column>
             <b-table-column field="created_at" label="创建时间" sortable>{{ props.row.created_at }}</b-table-column>
             <b-table-column field="updated_at" label="更新时间" sortable>{{ props.row.updated_at }}</b-table-column>
             <b-table-column field="handles" label="操作">
@@ -121,23 +126,23 @@
 </template>
 
 <script>
-import { getBlackLists } from "../../services/api";
-import List from "../../utils/minxins";
+import { getBooks } from "../../../services/doniai";
+import List from "../../../utils/minxins";
 export default {
   mixins: [List],
-  created() {
-    this.getBlackListData();
+  created () {
+    this.getBookData();
   },
-  data() {
+  data () {
     return {
       data: [],
       checkedRows: []
     };
   },
   methods: {
-    async getBlackListData() {
+    async getBookData () {
       try {
-        const { data } = await getBlackLists(this.filters);
+        const { data } = await getBooks(this.filters);
         this.data = data.data.data;
         this.pagination.current = data.data.page;
         this.pagination.pageSize = data.data.perPage;
@@ -146,7 +151,7 @@ export default {
         this.$toast.open("data loading failure!");
       }
     },
-    async delAll() {
+    async delAll () {
       var checkedList = [];
       this.checkedRows.map(value => {
         checkedList.push(value.id);
@@ -156,7 +161,7 @@ export default {
         type: "is-success"
       });
     },
-    confirmCustomDelete() {
+    confirmCustomDelete () {
       this.$dialog.confirm({
         size: "is-small",
         title: "文章删除",

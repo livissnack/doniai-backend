@@ -22,6 +22,18 @@
 
         <b-dropdown hoverable aria-role="menu">
           <a class="navbar-item" slot="trigger" role="button">
+            <span>HSPX管理</span>
+            <b-icon icon="menu-down"></b-icon>
+          </a>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxProduct')">产品管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxArticle')">新闻管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxQuestion')">咨询管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxUser')">用户管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxAccessLog')">访问日志管理</b-dropdown-item>
+        </b-dropdown>
+
+        <b-dropdown hoverable aria-role="menu">
+          <a class="navbar-item" slot="trigger" role="button">
             <span>微信管理</span>
             <b-icon icon="menu-down"></b-icon>
           </a>
@@ -95,19 +107,19 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       navigation: "home",
       logo: require("../assets/logo.png")
     };
   },
   methods: {
-    jumpRoute(name) {
-      if(name !== this.$route.name) {
+    jumpRoute (name) {
+      if (name !== this.$route.name) {
         this.$router.push({ name: `${name}` });
       }
     },
-    handleLogout() {
+    handleLogout () {
       localStorage.removeItem('access_token');
       localStorage.removeItem('login_status');
       this.$router.push({ name: `login` });
