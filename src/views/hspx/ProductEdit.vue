@@ -149,10 +149,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.form-box {
-  padding: 40px;
-}
-
 .btn-box {
   justify-content: flex-end;
 }

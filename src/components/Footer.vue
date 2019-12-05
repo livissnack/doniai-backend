@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       websiteUrl: "https://doniai.com",
       livissnackMit: "https://livissnack.mit-license.org"
@@ -28,5 +28,6 @@ export default {
   width: 100%;
   padding-top: 2rem;
   padding-bottom: 1rem;
+  margin-top: 40px;
 }
 </style>

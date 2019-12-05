@@ -55,4 +55,10 @@
 .ml10 {
   margin-left: 10px;
 }
+
+.form-box {
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
 </style>

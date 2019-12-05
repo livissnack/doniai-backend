@@ -61,7 +61,7 @@
         />
       </b-field>
 
-      <b-field label="英文内容"> </b-field>
+      <b-field label="英文内容"></b-field>
       <div class="buttons btn-box">
         <b-button type="is-danger">取消</b-button>
 
@@ -73,7 +73,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       form: {
         name: '',
@@ -93,11 +93,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.form-box {
-  background-color: #ffffff;
-  padding: 40px;
-}
-
 .btn-box {
   justify-content: flex-end;
 }
