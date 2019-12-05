@@ -243,8 +243,8 @@ export default {
             } else {
               throw new Error('product data delete failure!')
             }
-          } catch ({ response }) {
-            this.$buefy.toast.open({ type: 'is-danger', message: "product delete failure!" })
+          } catch (response) {
+            this.$buefy.toast.open({ type: 'is-danger', message: response.message })
           }
         }
       });

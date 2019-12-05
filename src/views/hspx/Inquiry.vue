@@ -9,7 +9,7 @@
           <a href="#">Hspx管理</a>
         </li>
         <li class="is-active">
-          <a href="#">新闻管理</a>
+          <a href="#">咨询管理</a>
         </li>
       </ul>
     </nav>
@@ -19,7 +19,7 @@
         <b-field class="search-item">
           <b-input
             class="search-item-box"
-            placeholder="新闻标题"
+            placeholder="咨询标题"
             size="is-small"
             type="search"
             icon="magnify"
@@ -54,14 +54,14 @@
             <b-icon icon="menu-down"></b-icon>
           </button>
 
-          <b-dropdown-item aria-role="listitem">导出新闻</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem">导出咨询</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="delAll">批量删除</b-dropdown-item>
         </b-dropdown>
       </div>
     </div>
 
     <b-tabs>
-      <b-tab-item label="新闻列表">
+      <b-tab-item label="咨询列表">
         <b-table
           :data="data"
           default-sort-direction="asc"
@@ -79,26 +79,20 @@
             <b-table-column field="id" numeric label="ID" width="40" sortable>{{ props.row.id }}</b-table-column>
             <b-table-column
               field="name"
-              label="标题"
-              :title="props.row.zh_title"
+              label="问题"
+              :title="props.row.question"
               sortable
-            >{{ props.row.zh_title | subZhStr }}</b-table-column>
-            <b-table-column field="status_text" label="状态" sortable>
-              <span class="tag is-success">{{ props.row.status_text }}</span>
+            >{{ props.row.question }}</b-table-column>
+            <b-table-column field="status" label="状态" sortable>
+              <span class="tag is-success">{{ props.row.status }}</span>
             </b-table-column>
-            <b-table-column field="announcer" label="发布者" sortable>{{ props.row.announcer }}</b-table-column>
-            <b-table-column field="image" label="图片" sortable>
-              <figure class="media-left">
-                <p class="image is-64x64">
-                  <img :src="props.row.image" />
-                </p>
-              </figure>
-            </b-table-column>
-            <b-table-column field="read_count" label="阅读量" sortable>{{ props.row.read_count }}</b-table-column>
-            <b-table-column field="type_text" label="类别" sortable>{{ props.row.type_text }}</b-table-column>
+            <b-table-column field="name" label="咨询用户" sortable>{{ props.row.name }}</b-table-column>
+            <b-table-column field="email" label="邮箱" sortable>{{ props.row.email }}</b-table-column>
+            <b-table-column field="phone" label="手机号" sortable>{{ props.row.phone }}</b-table-column>
+            <b-table-column field="company" label="公司" sortable>{{ props.row.company }}</b-table-column>
+            <b-table-column field="address" label="地址" sortable>{{ props.row.address }}</b-table-column>
 
             <b-table-column field="created_at" label="创建时间" sortable>{{ props.row.created_at }}</b-table-column>
-            <b-table-column field="updated_at" label="更新时间" sortable>{{ props.row.updated_at }}</b-table-column>
             <b-table-column field="handles" label="操作">
               <a class="button search-btn is-small is-warning" @click="handleEdit(props.row.id)">
                 <span class="icon">
@@ -179,7 +173,7 @@
 </template>
 
 <script>
-import { getNews, destroyNews } from "@/services/hspx";
+import { getInquiries, destroyInquiry } from "@/services/hspx";
 import List from "@/utils/minxins";
 export default {
   mixins: [List],
@@ -191,18 +185,18 @@ export default {
   watch: {
     "pagination.currentPage": function (val) {
       if (val >= 1 && val <= this.paginationPageSum) {
-        this.getNews();
+        this.getInquiries();
       }
     },
     "pagination.perPage": function (val) {
       if ([10, 20, 50, 100, 500, 1000].includes(parseInt(val))) {
         this.pagination.currentPage = this.paginationPageSum;
-        this.getNews();
+        this.getInquiries();
       }
     }
   },
   created () {
-    this.getNews();
+    this.getInquiries();
   },
   data () {
     return {
@@ -211,9 +205,9 @@ export default {
     };
   },
   methods: {
-    async getNews () {
+    async getInquiries () {
       try {
-        const { data } = await getNews({ page: this.pagination.currentPage, perPage: this.pagination.perPage });
+        const { data } = await getInquiries({ page: this.pagination.currentPage, perPage: this.pagination.perPage });
         this.data = data.data;
         this.pagination.currentPage = data.page;
         this.pagination.perPage = data.perPage;
@@ -243,7 +237,7 @@ export default {
         hasIcon: true,
         onConfirm: async () => {
           try {
-            const { data } = await destroyNews(id);
+            const { data } = await destroyInquiry(id);
             if (data) {
               this.$buefy.toast.open({ type: 'is-success', message: "product delete success!" })
             } else {

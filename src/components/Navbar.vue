@@ -27,7 +27,7 @@
           </a>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxProduct')">产品管理</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxArticle')">新闻管理</b-dropdown-item>
-          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxQuestion')">咨询管理</b-dropdown-item>
+          <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxInquiry')">咨询管理</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxUser')">用户管理</b-dropdown-item>
           <b-dropdown-item aria-role="listitem" @click="jumpRoute('pxAccessLog')">访问日志管理</b-dropdown-item>
         </b-dropdown>

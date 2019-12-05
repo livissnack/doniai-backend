@@ -86,9 +86,9 @@ const router = new Router({
           meta: { isLogin: true, title: '品信产品预览页' }
         },
         {
-          path: '/hspx/question',
-          component: () => import('@/views/hspx/Question.vue'),
-          name: 'pxQuestion',
+          path: '/hspx/inquiry',
+          component: () => import('@/views/hspx/Inquiry.vue'),
+          name: 'pxInquiry',
           meta: { isLogin: true, title: '品信咨询页' }
         },
         {
