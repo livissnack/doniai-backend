@@ -11,29 +11,31 @@
         <Footer />
       </div>
     </div>
+
+    <back-top color="#409EFF" :size="1.1" :slow="10"></back-top>
   </div>
 </template>
 
 <script>
-  // @ is an alias to /src
-  import Footer from '@/components/Footer.vue';
-  import Navbar from "@/components/Navbar.vue";
-  export default {
-    name: 'layout',
-    components: {
-      Footer,
-      Navbar
-    },
-  }
+// @ is an alias to /src
+import Footer from '@/components/Footer.vue';
+import Navbar from "@/components/Navbar.vue";
+export default {
+  name: 'layout',
+  components: {
+    Footer,
+    Navbar
+  },
+}
 </script>
 
 <style lang="less" scoped>
-  .layout {
-    padding: 10px 20px;
-    background-color: #f2f7f8;
-  }
+.layout {
+  padding: 10px 20px;
+  background-color: #f2f7f8;
+}
 
-  #nav {
+#nav {
   padding: 0 0 10px 0;
 
   a {

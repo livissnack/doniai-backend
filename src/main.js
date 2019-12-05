@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import BackTop from '@mlqt/vue-back-top'
 import YimoVueEditor from 'yimo-vue-editor'
 import Buefy from 'buefy'
 import echarts from 'echarts'
@@ -11,6 +12,7 @@ Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 
 Vue.use(Buefy)
+Vue.use(BackTop)
 Vue.use(YimoVueEditor, {
   name: 'v-editor-app', //Custom name
   config: {
