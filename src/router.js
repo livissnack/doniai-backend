@@ -62,6 +62,12 @@ const router = new Router({
           meta: { isLogin: true, title: '品信文章页' }
         },
         {
+          path: '/hspx/article/edit/:id',
+          component: () => import('@/views/hspx/ArticleEdit.vue'),
+          name: 'pxArticleEdit',
+          meta: { isLogin: true, title: '品信文章编辑页' }
+        },
+        {
           path: '/hspx/product',
           component: () => import('@/views/hspx/Product.vue'),
           name: 'pxProduct',

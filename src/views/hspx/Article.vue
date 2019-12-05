@@ -256,10 +256,10 @@ export default {
       });
     },
     handleEdit (id) {
-      this.$router.push({ name: "pxProductEdit", params: { id: id } });
+      this.$router.push({ name: "pxArticleEdit", params: { id: id } });
     },
     handlePreview (id) {
-      this.$router.push({ name: "pxProductPreview", params: { id: id } });
+      this.$router.push({ name: "pxArticlePreview", params: { id: id } });
     },
     handlePreviousPage () {
       if (this.paginationPageSum >= this.pagination.currentPage + 1) {
