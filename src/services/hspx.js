@@ -135,3 +135,7 @@ export async function showAccesslog(id, params) {
 export async function destroyAccesslog(id, params) {
   return request('delete', `${hspxApiVersion}/accesslog/${id}`, params)
 }
+
+export async function getProductTypes() {
+  return request('get', `${hspxApiVersion}/product_type`)
+}

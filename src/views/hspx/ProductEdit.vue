@@ -44,8 +44,11 @@
 
       <b-field label="类别">
         <b-select v-model="form.product_type_id" rounded>
-          <option value="0">Flint</option>
-          <option value="1">Silver</option>
+          <option
+            :value="item.id"
+            v-for="item in product_types"
+            :key="item.index"
+          >{{ item.zh_value }}</option>
         </b-select>
       </b-field>
 
@@ -66,11 +69,12 @@
 </template>
 
 <script>
-import { showProduct } from '../../services/hspx'
+import { showProduct, getProductTypes, updateProduct } from '../../services/hspx'
 
 export default {
-  data() {
+  data () {
     return {
+      product_types: [],
       form: {
         name: '',
         length: null,
@@ -84,15 +88,16 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.getProduct()
+    this.getProductTypes()
   },
   methods: {
-    async getProduct() {
+    async getProduct () {
       try {
         let id = this.$route.params.id
         const { data } = await showProduct(id)
-        const res = data[0]
+        const res = data
         this.form.name = res.name
         this.form.length = res.length
         this.form.width = res.width
@@ -102,7 +107,6 @@ export default {
         this.form.status = res.status
         this.form.content = res.content
         this.form.en_content = res.en_content
-        console.log(this.form, res.en_content)
       } catch ({ response }) {
         this.$buefy.toast.open({
           type: 'is-danger',
@@ -110,18 +114,35 @@ export default {
         })
       }
     },
-    handleSubmit() {
-      console.log(this.form)
+    async getProductTypes () {
+      try {
+        const { data } = await getProductTypes()
+        this.product_types = data
+      } catch ({ response }) {
+        this.$buefy.toast.open({
+          type: 'is-danger',
+          message: 'data loading failure!'
+        })
+      }
     },
-    async $imgAdd(pos, $file) {
-      let ossBucketConfig = await getBucketConfig()
-      let client = new aliOss(ossBucketConfig.data)
-      let imageObj = $file
-      const resultOss = await client.put(`uploads/${imageObj.name}`, imageObj)
-      this.$refs.md.$img2Url(pos, resultOss.url)
-    },
-    $imgDel() {
-      this.$toast.open('image delete success!')
+    async handleSubmit () {
+      try {
+        let id = this.$route.params.id
+        const { data } = await updateProduct(id, this.form)
+        if (data == 1) {
+          this.$buefy.toast.open({
+            type: 'is-success',
+            message: 'data update success!'
+          })
+        } else {
+          throw new Error('data update failure!')
+        }
+      } catch (response) {
+        this.$buefy.toast.open({
+          type: 'is-danger',
+          message: response.message
+        })
+      }
     }
   }
 }

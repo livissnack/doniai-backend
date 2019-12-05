@@ -94,25 +94,19 @@
             <b-table-column field="created_at" label="创建时间" sortable>{{ props.row.created_at }}</b-table-column>
             <b-table-column field="updated_at" label="更新时间" sortable>{{ props.row.updated_at }}</b-table-column>
             <b-table-column field="handles" label="操作">
-              <a
-                class="button search-btn is-small is-warning"
-                @click="confirmCustomEdit(props.row.id)"
-              >
+              <a class="button search-btn is-small is-warning" @click="handleEdit(props.row.id)">
                 <span class="icon">
                   <i class="fas fa-edit"></i>
                 </span>
                 <span>编辑</span>
               </a>
-              <a class="button search-btn is-small is-danger" @click="confirmCustomDelete">
+              <a class="button search-btn is-small is-danger" @click="handleDelete(props.row.id)">
                 <span class="icon">
                   <i class="fas fa-trash-alt"></i>
                 </span>
                 <span>删除</span>
               </a>
-              <a
-                class="button search-btn is-small is-success"
-                @click="confirmCustomPreview(props.row.id)"
-              >
+              <a class="button search-btn is-small is-success" @click="handlePreview(props.row.id)">
                 <span class="icon">
                   <i class="fas fa-eye"></i>
                 </span>
@@ -179,7 +173,7 @@
 </template>
 
 <script>
-import { getProducts } from "@/services/hspx";
+import { getProducts, destroyProduct } from "@/services/hspx";
 import List from "@/utils/minxins";
 export default {
   mixins: [List],
@@ -232,7 +226,7 @@ export default {
         type: "is-success"
       });
     },
-    confirmCustomDelete () {
+    handleDelete (id) {
       this.$buefy.dialog.confirm({
         size: "is-small",
         title: "产品删除",
@@ -241,17 +235,25 @@ export default {
         cancelText: "取消",
         type: "is-danger",
         hasIcon: true,
-        onConfirm: () => this.$buefy.toast.open("Account deleted!")
+        onConfirm: async () => {
+          try {
+            const { data } = await destroyProduct(id);
+            if (data) {
+              this.$buefy.toast.open({ type: 'is-success', message: "product delete success!" })
+            } else {
+              throw new Error('product data delete failure!')
+            }
+          } catch ({ response }) {
+            this.$buefy.toast.open({ type: 'is-danger', message: "product delete failure!" })
+          }
+        }
       });
     },
-    confirmCustomEdit (id) {
+    handleEdit (id) {
       this.$router.push({ name: "pxProductEdit", params: { id: id } });
     },
-    confirmCustomPreview (id) {
+    handlePreview (id) {
       this.$router.push({ name: "pxProductPreview", params: { id: id } });
-    },
-    handleExport () {
-      console.log('export excel data')
     },
     handlePreviousPage () {
       if (this.paginationPageSum >= this.pagination.currentPage + 1) {
