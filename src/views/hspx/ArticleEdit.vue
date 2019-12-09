@@ -105,7 +105,7 @@ export default {
         ko_content: '',
         tr_title: '',
         tr_content: '',
-        image: '',
+        image: null,
         status: 1
       }
     }
