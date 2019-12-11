@@ -39,6 +39,7 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "mem": ">=4.0.0",
+    "serialize-javascript": "^2.1.1",
     "vue-template-compiler": "^2.6.10",
     "vuepress": "^1.0.3"
   }
